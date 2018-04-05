@@ -12,9 +12,11 @@ explain:
 .PHONY: clean
 clean:
 	rm -fr build;
+	rm -fr vendor
 	mkdir build;
 
 .PHONY: install
+install:
 	dep ensure
 
 .PHONY: build
@@ -23,13 +25,7 @@ build:
 
 .PHONY: test
 test:
-	@for d in $(shell go list ./...); do \
-		go test -race -coverprofile=build/profile.out -covermode=atomic "$$d"; \
-		if [ -f build/profile.out ]; then \
-			cat build/profile.out >> build/coverage.out; \
-			rm build/profile.out; \
-		fi; \
-	done;
+	go test ./...
 
-test-cov:
-	go tool cover -html=build/coverage.out
+.PHONY: all
+all: clean install build test
