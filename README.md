@@ -5,6 +5,28 @@ Donny
 
 _Forget it, Donny, you're out of your element!_
 
-CLI application for getting information out of Visual Studio Team Services
+CLI application for getting information out of Visual Studio Team Services. It's based on [Trello CLI](https://github.com/benmatselby/trello-cli) so the aims are the same:
 
-This is very much an alpha work in progress
+* Provide a list of open iterations/boards
+* Provide details about which user stories are in the sprint
+
+
+# Configuration
+
+You will need the following environment variables defining:
+
+```
+$ export VSTS_ACCOUNT=""
+$ export VSTS_PROJECT=""
+$ export VSTS_TEAM=""
+$ export VSTS_TOKEN=""
+```
+
+# Installation via Git
+
+```
+$ git clone git@github.com:benmatselby/donny.git
+$ cd donny
+$ make all
+$ ./donny list:boards
+```
