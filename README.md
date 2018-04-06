@@ -30,3 +30,16 @@ $ cd donny
 $ make all
 $ ./donny list:boards
 ```
+
+# Installation via Docker
+
+```
+$ docker run \
+    --rm \
+    -t \
+    -eVSTS_ACCOUNT \
+    -eVSTS_PROJECT \
+    -eVSTS_TEAM \
+    -eVSTS_TOKEN \
+    benmatselby/donny "$@"
+```
