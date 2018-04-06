@@ -53,24 +53,24 @@ func main() {
 	app.Usage = "CLI Application to get sprint related data out of Visual Studio Team Services"
 	app.Commands = []cli.Command{
 		{
-			Name:  "list:cards",
-			Usage: "List the user stories in the sprint",
+			Name:  "iteration:cards",
+			Usage: "List the work items in a given iteration",
 			Action: func(c *cli.Context) {
 				args := c.Args()
 				if len(args) < 1 {
-					fmt.Printf("Please specify a sprint\n")
+					fmt.Printf("Please specify an iteration\n")
 					cli.ShowSubcommandHelp(c)
 					return
 				}
-				sprint := args[0]
+				iteration := args[0]
 
-				list := v.GetWorkItemsForIterationByState(sprint)
+				list := v.GetWorkItemsForIterationByState(iteration)
 				fmt.Println(list)
 			},
 		},
 		{
-			Name:  "list:boards",
-			Usage: "List the boards",
+			Name:  "iteration:list",
+			Usage: "List all the iterations",
 			Action: func(c *cli.Context) {
 				iterations, error := v.GetIterations()
 				for index := 0; index < len(iterations); index++ {
