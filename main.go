@@ -64,13 +64,8 @@ func main() {
 				}
 				sprint := args[0]
 
-				workItems, error := v.GetWorkItemsForIteration(sprint)
-				for index := 0; index < len(workItems); index++ {
-					fmt.Println("* " + workItems[index].Fields.Title)
-				}
-				if error != nil {
-					fmt.Println(error)
-				}
+				list := v.GetWorkItemsForIterationByState(sprint)
+				fmt.Println(list)
 			},
 		},
 		{

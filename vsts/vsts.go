@@ -58,10 +58,17 @@ type WorkItem struct {
 	Fields WorkItemFields `json:"fields"`
 }
 
+// AsListItem renders a work item in a list format
+func (wi WorkItem) AsListItem() string {
+	return fmt.Sprintf("* %s", wi.Fields.Title)
+}
+
 // WorkItemFields describes all the fields for a given work item
 type WorkItemFields struct {
 	ID    int    `json:"System.Id"`
 	Title string `json:"System.Title"`
+	State string `json:"System.State"`
+	Type  string `json:"System.WorkItemType"`
 }
 
 // New gets the VSTS Client
@@ -183,12 +190,14 @@ func (c *Client) GetWorkItemsForIteration(iterationName string) ([]WorkItem, err
 		workIds = append(workIds, strconv.Itoa(queryIds[index]))
 	}
 
-	// Now we want to padd out the fields for the work items
+	// Now we want to pad out the fields for the work items
 	URL := fmt.Sprintf(
-		"https://%s.visualstudio.com/%s/_apis/wit/workitems?ids=%s&fields=System.Id,System.Title&api-version=%s",
+		"https://%s.visualstudio.com/%s/_apis/wit/workitems?ids=%s&fields=%s&api-version=%s",
 		c.Account,
 		url.PathEscape(c.Project),
 		strings.Join(workIds, ","),
+		// https://docs.microsoft.com/en-us/rest/api/vsts/wit/work%20item%20types%20field/list
+		"System.Id,System.Title,System.State,System.WorkItemType",
 		"4.1-preview",
 	)
 
@@ -201,4 +210,29 @@ func (c *Client) GetWorkItemsForIteration(iterationName string) ([]WorkItem, err
 	_, err = c.Execute(request, &response)
 
 	return response.WorkItems, nil
+}
+
+// GetWorkItemsForIterationByState can build a string response of state => item mappings
+func (c *Client) GetWorkItemsForIterationByState(iterationName string) string {
+	workItems, error := c.GetWorkItemsForIteration(iterationName)
+	if error != nil {
+		return ""
+	}
+	x := make(map[string][]string)
+
+	for index := 0; index < len(workItems); index++ {
+		key := workItems[index].Fields.State
+		value := workItems[index].AsListItem()
+		x[key] = append(x[key], value)
+	}
+
+	asList := ""
+	for state := range x {
+		asList += "\n" + state + "\n"
+		asList += strings.Repeat("=", len(state)) + "\n"
+		for item := range x[state] {
+			asList += x[state][item] + "\n"
+		}
+	}
+	return asList
 }
