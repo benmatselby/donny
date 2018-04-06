@@ -22,20 +22,16 @@ func environmentVars() (bool, error) {
 	team = os.Getenv("VSTS_TEAM")
 	token = os.Getenv("VSTS_TOKEN")
 
-	if account == "" {
-		return false, fmt.Errorf("Please define VSTS_ACCOUNT as an environment variable")
-	}
+	envVars := `
+In order for donny to integrate with VSTS, you need to define the following environment variables:
 
-	if project == "" {
-		return false, fmt.Errorf("Please define VSTS_PROJECT as an environment variable")
-	}
-
-	if team == "" {
-		return false, fmt.Errorf("Please define VSTS_TEAM as an environment variable")
-	}
-
-	if token == "" {
-		return false, fmt.Errorf("Please define VSTS_TOKEN as an environment variable")
+* VSTS_ACCOUNT = %s
+* VSTS_PROJECT = %s
+* VSTS_TEAM    = %s
+* VSTS_TOKEN   = %s
+`
+	if account == "" || project == "" || team == "" || token == "" {
+		return false, fmt.Errorf(envVars, account, project, team, token)
 	}
 
 	return true, nil

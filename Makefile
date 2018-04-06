@@ -25,7 +25,10 @@ build:
 
 .PHONY: test
 test:
-	go test ./...
+	go test ./... -coverprofile=build/profile.out
+
+test-cov: test
+	go tool cover -html=build/profile.out
 
 .PHONY: all
 all: clean install build test
