@@ -1,4 +1,5 @@
 NAME := donny
+DOCKER_PREFIX = benmatselby
 
 .PHONY: explain
 explain:
@@ -43,3 +44,10 @@ all: clean install build test
 .PHONY: docker-build
 docker-build:
 	docker build -t benmatselby/donny .
+
+.PHONY: docker-push
+docker-push:
+	docker push $(DOCKER_PREFIX)/$(NAME)
+
+.PHONY: docker-all
+docker-all: docker-build docker-push
