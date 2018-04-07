@@ -43,7 +43,7 @@ all: clean install build test
 
 .PHONY: docker-build
 docker-build:
-	docker build -t benmatselby/donny .
+	docker build -t $(DOCKER_PREFIX)/$(NAME) .
 
 .PHONY: docker-push
 docker-push:
