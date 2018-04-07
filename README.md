@@ -28,7 +28,7 @@ $ export VSTS_TOKEN=""
 $ git clone git@github.com:benmatselby/donny.git
 $ cd donny
 $ make all
-$ ./donny list:boards
+$ ./donny iteration:list
 ```
 
 # Installation via Docker
