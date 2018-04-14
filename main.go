@@ -3,8 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
-	"github.com/benmatselby/donny/vsts"
+	"github.com/benmatselby/go-vsts/vsts"
 	"github.com/urfave/cli"
 )
 
@@ -45,7 +46,7 @@ func main() {
 		return
 	}
 
-	v := vsts.New(account, project, team, token)
+	v := vsts.NewClient(account, project, token)
 
 	app := cli.NewApp()
 	app.Name = "donny"
@@ -62,23 +63,47 @@ func main() {
 					cli.ShowSubcommandHelp(c)
 					return
 				}
-				iteration := args[0]
+				iterationName := args[0]
 
-				list := v.GetWorkItemsForIterationByState(iteration)
-				fmt.Println(list)
+				iteration, error := v.Iterations.GetByName(team, iterationName)
+				if error != nil {
+					fmt.Println(error)
+				}
+
+				workItems, error := v.WorkItems.GetForIteration(team, *iteration)
+				if error != nil {
+					fmt.Println(error)
+				}
+				x := make(map[string][]string)
+
+				for index := 0; index < len(workItems); index++ {
+					key := workItems[index].Fields.State
+					value := fmt.Sprintf("* %s", workItems[index].Fields.Title)
+					x[key] = append(x[key], value)
+				}
+
+				asList := ""
+				for state := range x {
+					asList += "\n" + state + "\n"
+					asList += strings.Repeat("=", len(state)) + "\n"
+					for item := range x[state] {
+						asList += x[state][item] + "\n"
+					}
+				}
+				fmt.Println(asList)
 			},
 		},
 		{
 			Name:  "iteration:list",
 			Usage: "List all the iterations",
 			Action: func(c *cli.Context) {
-				iterations, error := v.GetIterations()
-				for index := 0; index < len(iterations); index++ {
-					fmt.Println(iterations[index].Name)
-				}
-
+				iterations, error := v.Iterations.List(team)
 				if error != nil {
 					fmt.Println(error)
+				}
+
+				for index := 0; index < len(iterations); index++ {
+					fmt.Println(iterations[index].Name)
 				}
 			},
 		},
