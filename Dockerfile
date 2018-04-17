@@ -1,21 +1,30 @@
 FROM golang:alpine as builder
 LABEL maintainer="Ben Selby <benmatselby@gmail.com>"
 
-# RUN	apk add --no-cache \
-# 	ca-certificates
+ENV APPNAME donny
+ENV PATH /go/bin:/usr/local/go/bin:$PATH
+ENV GOPATH /go
 
-COPY . /go/src/github.com/benmatselby/donny
+COPY . /go/src/github.com/benmatselby/${APPNAME}
 
 RUN apk update && \
-    apk add gcc libc-dev libgcc git make
-
-RUN cd /go/src/github.com/benmatselby/donny \
-	&& make static \
-	&& mv donny /usr/bin/donny \
-	&& rm -rf /go
+    apk add --no-cache --virtual .build-deps \
+		ca-certificates \
+		gcc \
+		libc-dev \
+		libgcc \
+		git \
+		make && \
+	cd /go/src/github.com/benmatselby/${APPNAME} && \
+	make static  && \
+	mv ${APPNAME} /usr/bin/${APPNAME}  && \
+	apk del .build-deps  && \
+	rm -rf /go
 
 FROM scratch
 
-COPY --from=builder /usr/bin/donny /usr/bin/donny
+COPY --from=builder /usr/bin/${APPNAME} /usr/bin/${APPNAME}
+COPY --from=builder /etc/ssl/certs/ /etc/ssl/certs
 
 ENTRYPOINT [ "donny" ]
+CMD [ "--help"]
