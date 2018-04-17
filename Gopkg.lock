@@ -5,7 +5,7 @@
   branch = "master"
   name = "github.com/benmatselby/go-vsts"
   packages = ["vsts"]
-  revision = "f4485b9fbc8d0acb90df4d1246956ee4b575379e"
+  revision = "b7ea036dc0026fdca92b8c6798ef5d2c99f67451"
 
 [[projects]]
   name = "github.com/fatih/color"
