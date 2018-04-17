@@ -5,7 +5,7 @@
   branch = "master"
   name = "github.com/benmatselby/go-vsts"
   packages = ["vsts"]
-  revision = "2629580a7df12ed1fcae3647a9e5f957bd938702"
+  revision = "f4485b9fbc8d0acb90df4d1246956ee4b575379e"
 
 [[projects]]
   name = "github.com/urfave/cli"
