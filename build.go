@@ -12,13 +12,15 @@ import (
 
 // ListBuilds will call the VSTS API and get a list of builds
 func ListBuilds(c *cli.Context) {
+	count := c.Int("count")
+
 	builds, error := client.Builds.List()
 	if error != nil {
 		fmt.Println(error)
 	}
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
-	for index := 0; index < len(builds); index++ {
+	for index := 0; index < count; index++ {
 		name := builds[index].Definition.Name
 		result := builds[index].Result
 		buildNo := builds[index].BuildNumber
