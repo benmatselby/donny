@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 
+	"github.com/fatih/color"
 	"github.com/urfave/cli"
 )
 
+// ListBuilds will call the VSTS API and get a list of builds
 func ListBuilds(c *cli.Context) {
 	builds, error := client.Builds.List()
 	if error != nil {
@@ -13,6 +15,14 @@ func ListBuilds(c *cli.Context) {
 	}
 
 	for index := 0; index < len(builds); index++ {
-		fmt.Println(builds[index].Definition.Name)
+		name := builds[index].Definition.Name
+		// status := builds[index].Status
+		result := builds[index].Result
+
+		if result == "failed" {
+			color.Red(name)
+		} else if result == "succeeded" {
+			color.Green(name)
+		}
 	}
 }
