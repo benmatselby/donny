@@ -5,25 +5,7 @@
   branch = "master"
   name = "github.com/benmatselby/go-vsts"
   packages = ["vsts"]
-  revision = "b7ea036dc0026fdca92b8c6798ef5d2c99f67451"
-
-[[projects]]
-  name = "github.com/fatih/color"
-  packages = ["."]
-  revision = "507f6050b8568533fb3f5504de8e5205fa62a114"
-  version = "v1.6.0"
-
-[[projects]]
-  name = "github.com/mattn/go-colorable"
-  packages = ["."]
-  revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
-  version = "v0.0.9"
-
-[[projects]]
-  name = "github.com/mattn/go-isatty"
-  packages = ["."]
-  revision = "0360b2af4f38e8d38c7fce2a9f4e702702d73a39"
-  version = "v0.0.3"
+  revision = "7e04d8515deb3d779f12646b2fb5378ee8a74776"
 
 [[projects]]
   name = "github.com/urfave/cli"
@@ -31,15 +13,9 @@
   revision = "cfb38830724cc34fedffe9a2a29fb54fa9169cd1"
   version = "v1.20.0"
 
-[[projects]]
-  branch = "master"
-  name = "golang.org/x/sys"
-  packages = ["unix"]
-  revision = "b126b21c05a91c856b027c16779c12e3bf236954"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "84ac0277f98de55eba40a045aaf120c68fd383f263ed9f2a01e781f1b9dea1fb"
+  inputs-digest = "f3cda4c063f0d224de3bf26b6fc04bb605e8aa8cbfce20192ac39724e82f2198"
   solver-name = "gps-cdcl"
   solver-version = 1

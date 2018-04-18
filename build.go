@@ -3,39 +3,51 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"text/tabwriter"
 	"time"
 
-	"github.com/fatih/color"
 	"github.com/urfave/cli"
 )
 
 // ListBuilds will call the VSTS API and get a list of builds
 func ListBuilds(c *cli.Context) {
 	count := c.Int("count")
+	filterBranch := c.String("branch")
 
 	builds, error := client.Builds.List()
 	if error != nil {
 		fmt.Println(error)
 	}
 
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.FilterHTML)
+	fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", "", "Name", "Branch", "Build", "Finished")
 	for index := 0; index < count; index++ {
 		name := builds[index].Definition.Name
-		result := builds[index].Result
+		result := "✅ "
 		buildNo := builds[index].BuildNumber
+		branch := builds[index].Branch
+
+		// Deal with date formatting for the finish time
 		finish, error := time.Parse(time.RFC3339, builds[index].FinishTime)
 		finishAt := finish.Format("2006-01-02 15:04:05")
 		if error != nil {
 			finishAt = builds[index].FinishTime
 		}
 
-		colour := color.New(color.FgGreen)
-		if result == "failed" {
-			colour = color.New(color.FgRed)
+		// Filter on branches
+		matched, _ := regexp.MatchString(".*"+filterBranch+".*", branch)
+		if matched == false {
+			continue
 		}
 
-		colour.Fprintf(w, "%s\t%s\t%s\t\n", name, buildNo, finishAt)
+		// Provide some UI mechanism to show good/bad builds
+		// Wanted to use faith/color, but it doesn't work too well with tabwriter
+		if builds[index].Result == "failed" {
+			result = "❌ "
+		}
+
+		fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", result, name, branch, buildNo, finishAt)
 	}
 
 	w.Flush()

@@ -87,6 +87,7 @@ func main() {
 			Action: ListBuilds,
 			Flags: []cli.Flag{
 				cli.IntFlag{Name: "count", Value: 10, Usage: "How many builds to display"},
+				cli.StringFlag{Name: "branch", Value: ".*", Usage: "Filter by branch name"},
 			},
 		},
 	}
