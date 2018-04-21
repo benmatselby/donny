@@ -4,19 +4,22 @@ DOCKER_PREFIX = benmatselby
 .PHONY: explain
 explain:
 	### Welcome
+	#  _______   ______   .__   __. .__   __. ____    ____
+	# |       \ /  __  \  |  \ |  | |  \ |  | \   \  /   /
+	# |  .--.  |  |  |  | |   \|  | |   \|  |  \   \/   /
+	# |  |  |  |  |  |  | |  .    | |  .    |   \_    _/
+	# |  '--'  |   --'  | |  |\   | |  |\   |     |  |
+	# |_______/ \______/  |__| \__| |__| \__|     |__|
 	#
-	# Makefile for donny
 	#
 	### Installation
 	#
-	# $$ make clean install
+	# $$ make all
 	#
 
 .PHONY: clean
 clean:
-	rm -fr build;
 	rm -fr vendor
-	mkdir build;
 
 .PHONY: install
 install:
@@ -32,11 +35,11 @@ static:
 
 .PHONY: test
 test:
-	go test ./... -coverprofile=build/profile.out
+	go test ./... -coverprofile=profile.out
 
 .PHONY: test-cov
 test-cov: test
-	go tool cover -html=build/profile.out
+	go tool cover -html=profile.out
 
 .PHONY: all
 all: clean install build test
