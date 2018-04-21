@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"regexp"
-	"text/tabwriter"
 	"time"
 
 	"github.com/benmatselby/go-vsts/vsts"
+	"github.com/fatih/color"
 	"github.com/urfave/cli"
 )
 
@@ -15,8 +14,9 @@ import (
 func ListPullRequests(c *cli.Context) {
 	state := c.String("state")
 	count := c.Int("count")
+	verbose := c.Bool("verbose")
 	filterRepo := c.String("repo")
-	titleLenth := 40
+	titleLenth := 120
 
 	options := &vsts.PullRequestListOptions{State: state}
 	pulls, _, error := client.PullRequests.List(options)
@@ -27,9 +27,6 @@ func ListPullRequests(c *cli.Context) {
 	if len(pulls) == 0 {
 		return
 	}
-
-	w := tabwriter.NewWriter(os.Stdout, 0, 1, 3, ' ', 0)
-	fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", "Repo", "Title", "Status", "Created")
 
 	for index := 0; index <= count; index++ {
 		pull := pulls[index]
@@ -55,7 +52,14 @@ func ListPullRequests(c *cli.Context) {
 			whens = pull.Created
 		}
 
-		fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", repoName, title, status, whens)
+		color.Cyan("#%d %s\n", pull.ID, title)
+		if verbose && pull.Description != "" {
+			fmt.Printf("%s\n", pull.Description)
+		}
+		fmt.Printf("%s\n", repoName)
+		fmt.Printf("%s\n", status)
+		fmt.Printf("%v\n", whens)
+
+		fmt.Println("")
 	}
-	w.Flush()
 }

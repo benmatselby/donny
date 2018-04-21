@@ -91,13 +91,14 @@ func main() {
 			Action: ListIterations,
 		},
 		{
-			Name:   "pullrequest:list",
+			Name:   "pr:list",
 			Usage:  "List all the pull requests",
 			Action: ListPullRequests,
 			Flags: []cli.Flag{
 				cli.StringFlag{Name: "state", Value: "active", Usage: "Filter by pull request state"},
 				cli.StringFlag{Name: "repo", Value: ".*", Usage: "Filter by repo name"},
 				cli.IntFlag{Name: "count", Value: 50, Usage: "How many pull requests to display"},
+				cli.BoolFlag{Name: "verbose, vv"},
 			},
 		},
 	}
