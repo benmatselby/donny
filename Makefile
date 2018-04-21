@@ -25,6 +25,10 @@ clean:
 install:
 	dep ensure
 
+.PHONY: vet
+vet:
+	go vet -v ./...
+
 .PHONY: build
 build:
 	go build .
@@ -42,7 +46,7 @@ test-cov: test
 	go tool cover -html=profile.out
 
 .PHONY: all
-all: clean install build test
+all: clean install vet build test
 
 .PHONY: docker-build
 docker-build:
