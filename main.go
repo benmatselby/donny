@@ -31,7 +31,7 @@ func loadEnvironmentVars() (bool, error) {
 
 func getUsage(withError bool) string {
 	usage := `
-_______   ______   .__   __. .__   __. ____    ____
+ _______   ______   .__   __. .__   __. ____    ____
 |       \ /  __  \  |  \ |  | |  \ |  | \   \  /   /
 |  .--.  |  |  |  | |   \|  | |   \|  |  \   \/   /
 |  |  |  |  |  |  | |  .    | |  .    |   \_    _/
@@ -88,6 +88,16 @@ func main() {
 			Flags: []cli.Flag{
 				cli.IntFlag{Name: "count", Value: 10, Usage: "How many builds to display"},
 				cli.StringFlag{Name: "branch", Value: ".*", Usage: "Filter by branch name"},
+			},
+		},
+		{
+			Name:   "pullrequest:list",
+			Usage:  "List all the pull requests",
+			Action: ListPullRequests,
+			Flags: []cli.Flag{
+				cli.StringFlag{Name: "state", Value: "active", Usage: "Filter by pull request state"},
+				cli.StringFlag{Name: "repo", Value: ".*", Usage: "Filter by repo name"},
+				cli.IntFlag{Name: "count", Value: 50, Usage: "How many pull requests to display"},
 			},
 		},
 	}

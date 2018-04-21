@@ -5,7 +5,13 @@
   branch = "master"
   name = "github.com/benmatselby/go-vsts"
   packages = ["vsts"]
-  revision = "7e04d8515deb3d779f12646b2fb5378ee8a74776"
+  revision = "fd08a955459eb85c84b7b5e0a105f43749a7b8da"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/google/go-querystring"
+  packages = ["query"]
+  revision = "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
 
 [[projects]]
   name = "github.com/urfave/cli"
