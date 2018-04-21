@@ -7,8 +7,14 @@ _Forget it, Donny, you're out of your element!_
 
 CLI application for getting information out of Visual Studio Team Services. It's based on [Trello CLI](https://github.com/benmatselby/trello-cli) so the aims are the same:
 
-* Provide a list of open iterations/boards
-* Provide details about which user stories are in the sprint
+```
+COMMANDS:
+     iteration:cards   List the work items in a given iteration
+     iteration:list    List all the iterations
+     build:list        List all the builds
+     pullrequest:list  List all the pull requests
+     help, h           Shows a list of commands or help for one command
+```
 
 
 # Configuration
