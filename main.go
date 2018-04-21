@@ -72,6 +72,15 @@ func main() {
 	app.Usage = usage
 	app.Commands = []cli.Command{
 		{
+			Name:   "build:list",
+			Usage:  "List all the builds",
+			Action: ListBuilds,
+			Flags: []cli.Flag{
+				cli.IntFlag{Name: "count", Value: 10, Usage: "How many builds to display"},
+				cli.StringFlag{Name: "branch", Value: ".*", Usage: "Filter by branch name"},
+			},
+		},
+		{
 			Name:   "iteration:cards",
 			Usage:  "List the work items in a given iteration",
 			Action: ListCardsInIteration,
@@ -80,15 +89,6 @@ func main() {
 			Name:   "iteration:list",
 			Usage:  "List all the iterations",
 			Action: ListIterations,
-		},
-		{
-			Name:   "build:list",
-			Usage:  "List all the builds",
-			Action: ListBuilds,
-			Flags: []cli.Flag{
-				cli.IntFlag{Name: "count", Value: 10, Usage: "How many builds to display"},
-				cli.StringFlag{Name: "branch", Value: ".*", Usage: "Filter by branch name"},
-			},
 		},
 		{
 			Name:   "pullrequest:list",
