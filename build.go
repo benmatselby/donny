@@ -31,10 +31,12 @@ func ListBuilds(c *cli.Context) {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.FilterHTML)
 	fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", "", "Name", "Branch", "Build", "Finished")
 	for index := 0; index < count; index++ {
-		name := builds[index].Definition.Name
-		result := builds[index].Result
-		buildNo := builds[index].BuildNumber
-		branch := builds[index].Branch
+		build := builds[index]
+		name := build.Definition.Name
+		result := build.Result
+		status := build.Status
+		buildNo := build.BuildNumber
+		branch := build.Branch
 
 		// Deal with date formatting for the finish time
 		finish, error := time.Parse(time.RFC3339, builds[index].FinishTime)
@@ -49,14 +51,16 @@ func ListBuilds(c *cli.Context) {
 			continue
 		}
 
-		// Provide some UI mechanism to show good/bad builds
-		// Wanted to use faith/color, but it doesn't work too well with tabwriter
-		if result == "failed" {
-			result = "❌ "
-		} else if result == "" {
-			result = "🏗"
+		if status == "inProgress" {
+			result = "🏗 "
+		} else if status == "notStarted" {
+			result = "🗂 "
 		} else {
-			result = "✅ "
+			if result == "failed" {
+				result = "❌ "
+			} else {
+				result = "✅ "
+			}
 		}
 
 		fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", result, name, branch, buildNo, finishAt)
