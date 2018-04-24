@@ -16,7 +16,6 @@ func ListPullRequests(c *cli.Context) {
 	count := c.Int("count")
 	verbose := c.Bool("verbose")
 	filterRepo := c.String("repo")
-	titleLenth := 120
 
 	options := &vsts.PullRequestListOptions{State: state}
 	pulls, _, error := client.PullRequests.List(options)
@@ -28,7 +27,11 @@ func ListPullRequests(c *cli.Context) {
 		return
 	}
 
-	for index := 0; index <= count; index++ {
+	if len(pulls) < count {
+		count = len(pulls)
+	}
+
+	for index := 0; index < count; index++ {
 		pull := pulls[index]
 
 		repoName := pull.Repo.Name
@@ -40,9 +43,6 @@ func ListPullRequests(c *cli.Context) {
 		}
 
 		title := pull.Title
-		if len(title) > titleLenth {
-			title = title[0:titleLenth] + "..."
-		}
 		status := pull.Status
 
 		// Deal with date formatting
@@ -52,12 +52,16 @@ func ListPullRequests(c *cli.Context) {
 			whens = pull.Created
 		}
 
-		color.Cyan("#%d %s\n", pull.ID, title)
+		// Colourise the title based on state
+		if status == "completed" {
+			color.Green("#%d %s\n", pull.ID, title)
+		} else {
+			color.Yellow("#%d %s\n", pull.ID, title)
+		}
 		if verbose && pull.Description != "" {
 			fmt.Printf("%s\n", pull.Description)
 		}
 		fmt.Printf("%s\n", repoName)
-		fmt.Printf("%s\n", status)
 		fmt.Printf("%v\n", whens)
 
 		fmt.Println("")
