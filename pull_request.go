@@ -55,6 +55,8 @@ func ListPullRequests(c *cli.Context) {
 		// Colourise the title based on state
 		if status == "completed" {
 			color.Green("#%d %s\n", pull.ID, title)
+		} else if status == "abandoned" {
+			color.Red("#%d %s\n", pull.ID, title)
 		} else {
 			color.Yellow("#%d %s\n", pull.ID, title)
 		}
