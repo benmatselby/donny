@@ -32,7 +32,7 @@ func ListBuilds(c *cli.Context) {
 	fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", "", "Name", "Branch", "Build", "Finished")
 	for index := 0; index < count; index++ {
 		name := builds[index].Definition.Name
-		result := "✅ "
+		result := builds[index].Result
 		buildNo := builds[index].BuildNumber
 		branch := builds[index].Branch
 
@@ -51,8 +51,12 @@ func ListBuilds(c *cli.Context) {
 
 		// Provide some UI mechanism to show good/bad builds
 		// Wanted to use faith/color, but it doesn't work too well with tabwriter
-		if builds[index].Result == "failed" {
+		if result == "failed" {
 			result = "❌ "
+		} else if result == "" {
+			result = "🏗"
+		} else {
+			result = "✅ "
 		}
 
 		fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", result, name, branch, buildNo, finishAt)
