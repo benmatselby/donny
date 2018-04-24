@@ -17,6 +17,8 @@ explain:
 	# $$ make all
 	#
 
+GITCOMMIT := $(shell git rev-parse --short HEAD)
+
 .PHONY: clean
 clean:
 	rm -fr vendor
@@ -35,7 +37,7 @@ build:
 
 .PHONY: static
 static:
-	go build -ldflags "-linkmode external -extldflags -static" -o $(NAME) .
+	CGO_ENABLED=0 go build -ldflags "-extldflags -static -X github.com/benmatselby/donny/version.GITCOMMIT=$(GITCOMMIT)" -o $(NAME) .
 
 .PHONY: test
 test:
