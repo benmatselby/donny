@@ -20,6 +20,14 @@ func ListBuilds(c *cli.Context) {
 		fmt.Println(error)
 	}
 
+	if len(builds) == 0 {
+		return
+	}
+
+	if len(builds) < count {
+		count = len(builds)
+	}
+
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.FilterHTML)
 	fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", "", "Name", "Branch", "Build", "Finished")
 	for index := 0; index < count; index++ {
