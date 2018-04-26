@@ -3,3 +3,4 @@ coverage.out
 profile.out
 debug.test
 vendor/
+debug
