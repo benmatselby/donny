@@ -86,6 +86,9 @@ func main() {
 			Name:   "iteration:items",
 			Usage:  "List the work items in a given iteration",
 			Action: ListItemsInIteration,
+			Flags: []cli.Flag{
+				cli.StringFlag{Name: "board", Value: "Stories", Usage: "Display board by type"},
+			},
 		},
 		{
 			Name:   "iteration:list",
