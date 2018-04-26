@@ -19,8 +19,8 @@ func ListIterations(c *cli.Context) {
 	}
 }
 
-// ListCardsInIteration will call the VSTS API and get a list of cards for an iteration
-func ListCardsInIteration(c *cli.Context) {
+// ListItemsInIteration will call the VSTS API and get a list of items for an iteration
+func ListItemsInIteration(c *cli.Context) {
 	args := c.Args()
 	if len(args) < 1 {
 		fmt.Printf("Please specify an iteration\n")

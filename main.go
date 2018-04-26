@@ -83,9 +83,9 @@ func main() {
 			},
 		},
 		{
-			Name:   "iteration:cards",
+			Name:   "iteration:items",
 			Usage:  "List the work items in a given iteration",
-			Action: ListCardsInIteration,
+			Action: ListItemsInIteration,
 		},
 		{
 			Name:   "iteration:list",
