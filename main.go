@@ -96,6 +96,14 @@ func main() {
 			Action: ListIterations,
 		},
 		{
+			Name:   "iteration:burndown",
+			Usage:  "Show column based data for the iteration",
+			Action: ShowIterationBurndown,
+			Flags: []cli.Flag{
+				cli.StringFlag{Name: "board", Value: "Stories", Usage: "Display board by type"},
+			},
+		},
+		{
 			Name:   "pr:list",
 			Usage:  "List all the pull requests",
 			Action: ListPullRequests,

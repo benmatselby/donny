@@ -9,11 +9,12 @@ CLI application for getting information out of Visual Studio Team Services. It's
 
 ```
 COMMANDS:
-     iteration:cards   List the work items in a given iteration
-     iteration:list    List all the iterations
-     build:list        List all the builds
-     pullrequest:list  List all the pull requests
-     help, h           Shows a list of commands or help for one command
+     build:list          List all the builds
+     iteration:items     List the work items in a given iteration
+     iteration:list      List all the iterations
+     iteration:burndown  Show column based data for the iteration
+     pr:list             List all the pull requests
+     help, h             Shows a list of commands or help for one command
 ```
 
 
