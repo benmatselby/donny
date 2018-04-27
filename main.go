@@ -83,6 +83,14 @@ func main() {
 			},
 		},
 		{
+			Name:   "iteration:burndown",
+			Usage:  "Show column based data for the iteration",
+			Action: ShowIterationBurndown,
+			Flags: []cli.Flag{
+				cli.StringFlag{Name: "board", Value: "Stories", Usage: "Display board by type"},
+			},
+		},
+		{
 			Name:   "iteration:items",
 			Usage:  "List the work items in a given iteration",
 			Action: ListItemsInIteration,
@@ -96,12 +104,9 @@ func main() {
 			Action: ListIterations,
 		},
 		{
-			Name:   "iteration:burndown",
-			Usage:  "Show column based data for the iteration",
-			Action: ShowIterationBurndown,
-			Flags: []cli.Flag{
-				cli.StringFlag{Name: "board", Value: "Stories", Usage: "Display board by type"},
-			},
+			Name:   "iteration:people",
+			Usage:  "Show people based data for the iteration",
+			Action: ShowIterationPeopleBreakdown,
 		},
 		{
 			Name:   "pr:list",

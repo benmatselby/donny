@@ -30,7 +30,7 @@ func ListItemsInIteration(c *cli.Context) {
 
 	iterationName := c.Args()[0]
 	boardName := c.String("board")
-	items := getWorkItems(team, iterationName)
+	items := getWorkItemsByBoardColumn(team, iterationName)
 
 	// Get the board layout so we now how to render the columns in the right order
 	boards, error := client.Boards.List(team)
@@ -68,7 +68,7 @@ func ShowIterationBurndown(c *cli.Context) {
 
 	iterationName := c.Args()[0]
 	boardName := c.String("board")
-	items := getWorkItems(team, iterationName)
+	items := getWorkItemsByBoardColumn(team, iterationName)
 
 	// Get the board layout so we now how to render the columns in the right order
 	boards, error := client.Boards.List(team)
@@ -111,6 +111,45 @@ func ShowIterationBurndown(c *cli.Context) {
 	}
 }
 
+// ShowIterationPeopleBreakdown will display people based data for the iteration
+func ShowIterationPeopleBreakdown(c *cli.Context) {
+	if !checkIterationDeclared(c) {
+		return
+	}
+
+	iterationName := c.Args()[0]
+	workItems := getWorkItemsByPerson(team, iterationName)
+
+	w := tabwriter.NewWriter(os.Stdout, 0, 1, 1, ' ', 0)
+	fmt.Fprintf(w, "%s\t%s\t%s\n", "Person", "Items", "Points")
+	fmt.Fprintf(w, "%s\t%s\t%s\n", "------", "-----", "------")
+	totalItems := 0
+	totalPoints := 0.0
+	for person, items := range workItems {
+		points := 0.0
+		itemCount := len(items)
+
+		if person == "" {
+			person = "Unassigned"
+		}
+
+		// Cut the email address out
+		person = strings.Split(person, "<")[0]
+
+		for _, item := range items {
+			points += item.Fields.Points
+		}
+		totalPoints += points
+		totalItems += itemCount
+
+		fmt.Fprintf(w, "%s\t%d\t%g\n", person, itemCount, points)
+	}
+	fmt.Fprintf(w, "%s\t%s\t%s\n", "------", "", "")
+	fmt.Fprintf(w, "%s\t%d\t%g\n", "Total", totalItems, totalPoints)
+	fmt.Fprintf(w, "%s\t%s\t%s\n", "------", "", "")
+	w.Flush()
+}
+
 func checkIterationDeclared(c *cli.Context) bool {
 	if len(c.Args()) < 1 {
 		fmt.Printf("Please specify an iteration\n")
@@ -121,18 +160,25 @@ func checkIterationDeclared(c *cli.Context) bool {
 	return true
 }
 
-func getWorkItems(team string, iterationName string) map[string][]vsts.WorkItem {
-	// Get the iteration by name
-	iteration, error := client.Iterations.GetByName(team, iterationName)
-	if error != nil {
-		fmt.Println(error)
+func getWorkItemsByPerson(team string, iterationName string) map[string][]vsts.WorkItem {
+	workItems := getWorkItems(team, iterationName)
+
+	items := make(map[string][]vsts.WorkItem)
+
+	// Now build a map|slice|array (!) of
+	// Person => Items[]
+	for index := 0; index < len(workItems); index++ {
+		item := workItems[index]
+		key := item.Fields.AssignedTo
+		items[key] = append(items[key], item)
 	}
 
-	// Get the items for the iteration we have found
-	workItems, error := client.WorkItems.GetForIteration(team, *iteration)
-	if error != nil {
-		fmt.Println(error)
-	}
+	return items
+}
+
+func getWorkItemsByBoardColumn(team string, iterationName string) map[string][]vsts.WorkItem {
+	workItems := getWorkItems(team, iterationName)
+
 	items := make(map[string][]vsts.WorkItem)
 
 	// Now build a map|slice|array (!) of
@@ -148,4 +194,20 @@ func getWorkItems(team string, iterationName string) map[string][]vsts.WorkItem 
 	}
 
 	return items
+}
+
+func getWorkItems(team string, iterationName string) []vsts.WorkItem {
+	// Get the iteration by name
+	iteration, error := client.Iterations.GetByName(team, iterationName)
+	if error != nil {
+		fmt.Println(error)
+	}
+
+	// Get the items for the iteration we have found
+	workItems, error := client.WorkItems.GetForIteration(team, *iteration)
+	if error != nil {
+		fmt.Println(error)
+	}
+
+	return workItems
 }
