@@ -81,6 +81,7 @@ func main() {
 				cli.IntFlag{Name: "count", Value: 10, Usage: "How many builds to display"},
 				cli.StringFlag{Name: "branch", Value: ".*", Usage: "Filter by branch name"},
 			},
+			Category: "build",
 		},
 		{
 			Name:   "iteration:burndown",
@@ -89,6 +90,7 @@ func main() {
 			Flags: []cli.Flag{
 				cli.StringFlag{Name: "board", Value: "Stories", Usage: "Display board by type"},
 			},
+			Category: "iteration",
 		},
 		{
 			Name:   "iteration:items",
@@ -97,16 +99,19 @@ func main() {
 			Flags: []cli.Flag{
 				cli.StringFlag{Name: "board", Value: "Stories", Usage: "Display board by type"},
 			},
+			Category: "iteration",
 		},
 		{
-			Name:   "iteration:list",
-			Usage:  "List all the iterations",
-			Action: ListIterations,
+			Name:     "iteration:list",
+			Usage:    "List all the iterations",
+			Action:   ListIterations,
+			Category: "iteration",
 		},
 		{
-			Name:   "iteration:people",
-			Usage:  "Show people based data for the iteration",
-			Action: ShowIterationPeopleBreakdown,
+			Name:     "iteration:people",
+			Usage:    "Show people based data for the iteration",
+			Action:   ShowIterationPeopleBreakdown,
+			Category: "iteration",
 		},
 		{
 			Name:   "pr:list",
@@ -118,6 +123,7 @@ func main() {
 				cli.IntFlag{Name: "count", Value: 10, Usage: "How many pull requests to display"},
 				cli.BoolFlag{Name: "verbose, vv"},
 			},
+			Category: "pull requests",
 		},
 	}
 
