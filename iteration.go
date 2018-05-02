@@ -31,7 +31,16 @@ func ListItemsInIteration(c *cli.Context) {
 
 	iterationName := c.Args()[0]
 	boardName := c.String("board")
-	items, error := getWorkItemsByBoardColumn(team, iterationName)
+	hideTag := c.String("hide-tag")
+	showTag := c.String("filter-tag")
+
+	items, error := getWorkItems(team, iterationName)
+	if error != nil {
+		fmt.Println(error.Error())
+		return
+	}
+
+	workItems, error := getWorkItemsByBoardColumn(items)
 	if error != nil {
 		fmt.Println(error.Error())
 		return
@@ -57,7 +66,14 @@ func ListItemsInIteration(c *cli.Context) {
 			for _, column := range b.Columns {
 				asList += "\n" + column.Name + "\n"
 				asList += strings.Repeat("=", len(column.Name)) + "\n"
-				for _, item := range items[column.Name] {
+				for _, item := range workItems[column.Name] {
+					if hideTag != "" && stringInSlice(hideTag, item.Fields.TagList) {
+						continue
+					}
+
+					if showTag != "" && !stringInSlice(showTag, item.Fields.TagList) {
+						continue
+					}
 					asList += fmt.Sprintf("* (%g) %s\n", item.Fields.Points, item.Fields.Title)
 				}
 			}
@@ -74,7 +90,14 @@ func ShowIterationBurndown(c *cli.Context) {
 
 	iterationName := c.Args()[0]
 	boardName := c.String("board")
-	items, error := getWorkItemsByBoardColumn(team, iterationName)
+
+	items, error := getWorkItems(team, iterationName)
+	if error != nil {
+		fmt.Println(error.Error())
+		return
+	}
+
+	workItems, error := getWorkItemsByBoardColumn(items)
 	if error != nil {
 		fmt.Println(error.Error())
 		return
@@ -102,9 +125,9 @@ func ShowIterationBurndown(c *cli.Context) {
 			totalPoints := 0.0
 			for _, column := range b.Columns {
 				points := 0.0
-				itemCount := len(items[column.Name])
+				itemCount := len(workItems[column.Name])
 
-				for _, item := range items[column.Name] {
+				for _, item := range workItems[column.Name] {
 					points += item.Fields.Points
 				}
 				totalPoints += points
@@ -129,7 +152,14 @@ func ShowIterationPeopleBreakdown(c *cli.Context) {
 	}
 
 	iterationName := c.Args()[0]
-	workItems, error := getWorkItemsByPerson(team, iterationName)
+
+	items, error := getWorkItems(team, iterationName)
+	if error != nil {
+		fmt.Println(error.Error())
+		return
+	}
+
+	workItems, error := getWorkItemsByPerson(items)
 	if error != nil {
 		fmt.Println(error.Error())
 		return
@@ -175,12 +205,7 @@ func checkIterationDeclared(c *cli.Context) bool {
 	return true
 }
 
-func getWorkItemsByPerson(team string, iterationName string) (map[string][]vsts.WorkItem, error) {
-	workItems, error := getWorkItems(team, iterationName)
-	if error != nil {
-		return nil, error
-	}
-
+func getWorkItemsByPerson(workItems []vsts.WorkItem) (map[string][]vsts.WorkItem, error) {
 	items := make(map[string][]vsts.WorkItem)
 
 	// Now build a map|slice|array (!) of
@@ -194,12 +219,7 @@ func getWorkItemsByPerson(team string, iterationName string) (map[string][]vsts.
 	return items, nil
 }
 
-func getWorkItemsByBoardColumn(team string, iterationName string) (map[string][]vsts.WorkItem, error) {
-	workItems, error := getWorkItems(team, iterationName)
-	if error != nil {
-		return nil, error
-	}
-
+func getWorkItemsByBoardColumn(workItems []vsts.WorkItem) (map[string][]vsts.WorkItem, error) {
 	items := make(map[string][]vsts.WorkItem)
 
 	// Now build a map|slice|array (!) of
@@ -235,4 +255,13 @@ func getWorkItems(team string, iterationName string) ([]vsts.WorkItem, error) {
 	}
 
 	return workItems, nil
+}
+
+func stringInSlice(str string, list []string) bool {
+	for _, v := range list {
+		if v == str {
+			return true
+		}
+	}
+	return false
 }
