@@ -98,6 +98,8 @@ func main() {
 			Action: ListItemsInIteration,
 			Flags: []cli.Flag{
 				cli.StringFlag{Name: "board", Value: "Stories", Usage: "Display board by type"},
+				cli.StringFlag{Name: "filter-tag", Value: "", Usage: "Filter by a given tag"},
+				cli.StringFlag{Name: "hide-tag", Value: "", Usage: "Hide items with a given tag"},
 			},
 			Category: "iteration",
 		},
