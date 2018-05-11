@@ -5,7 +5,7 @@
   branch = "master"
   name = "github.com/benmatselby/go-vsts"
   packages = ["vsts"]
-  revision = "12dc4aced373cac3348c7398cc689d5abd467efe"
+  revision = "0591d984559ef6caad67634f43abf8bdd7858610"
 
 [[projects]]
   name = "github.com/fatih/color"
@@ -41,7 +41,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "78d5f264b493f125018180c204871ecf58a2dce1"
+  revision = "d0faeb539838e250bd0a9db4182d48d4a1915181"
 
 [solve-meta]
   analyzer-name = "dep"
