@@ -7,6 +7,7 @@ import (
 	"text/tabwriter"
 	"time"
 
+	"github.com/benmatselby/go-vsts/vsts"
 	"github.com/urfave/cli"
 )
 
@@ -15,7 +16,8 @@ func ListBuilds(c *cli.Context) {
 	count := c.Int("count")
 	filterBranch := c.String("branch")
 
-	builds, error := client.Builds.List()
+	options := &vsts.BuildsListOptions{}
+	builds, error := client.Builds.List(options)
 	if error != nil {
 		fmt.Println(error)
 	}
