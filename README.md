@@ -2,6 +2,7 @@ Donny
 =====
 
 [![Build Status](https://travis-ci.org/benmatselby/donny.png?branch=master)](https://travis-ci.org/benmatselby/donny)
+[![Go Report Card](https://goreportcard.com/badge/github.com/benmatselby/donny?style=flat-square)](https://goreportcard.com/report/github.com/benmatselby/donny)
 
 _Forget it, Donny, you're out of your element!_
 
