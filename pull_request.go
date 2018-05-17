@@ -47,7 +47,7 @@ func ListPullRequests(c *cli.Context) {
 
 		// Deal with date formatting
 		when, error := time.Parse(time.RFC3339, pull.Created)
-		whens := when.Format("2006-01-02 15:04:05")
+		whens := when.Format(appDateFormat)
 		if error != nil {
 			whens = pull.Created
 		}
