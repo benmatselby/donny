@@ -10,12 +10,18 @@ CLI application for getting information out of Visual Studio Team Services. It's
 
 ```
 COMMANDS:
+     help, h  Shows a list of commands or help for one command
+   build:
      build:list          List all the builds
+   iteration:
+     iteration:burndown  Show column based data for the iteration
      iteration:items     List the work items in a given iteration
      iteration:list      List all the iterations
-     iteration:burndown  Show column based data for the iteration
+     iteration:people    Show people based data for the iteration
+   plans:
+     plan:list           List all the delivery plans
+   pull requests:
      pr:list             List all the pull requests
-     help, h             Shows a list of commands or help for one command
 ```
 
 
