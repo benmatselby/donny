@@ -12,7 +12,6 @@ import (
 
 // ListDeliveryPlans will call the VSTS API and get a list of delivery plans
 func ListDeliveryPlans(c *cli.Context) {
-
 	options := &vsts.DeliveryPlansListOptions{}
 	plans, _, error := client.DeliveryPlans.List(options)
 	if error != nil {
@@ -37,4 +36,33 @@ func ListDeliveryPlans(c *cli.Context) {
 		fmt.Fprintf(w, "%s\t%s\n", plan.Name, createdOn)
 	}
 	w.Flush()
+}
+
+// GetDeliveryPlanTimeLine will call the VSTS API and get a list of delivery plans
+func GetDeliveryPlanTimeLine(c *cli.Context) {
+	planName := c.Args()[0]
+
+	options := &vsts.DeliveryPlansListOptions{}
+	plans, _, error := client.DeliveryPlans.List(options)
+	if error != nil {
+		fmt.Println(error)
+	}
+
+	if len(plans) == 0 {
+		return
+	}
+
+	for _, plan := range plans {
+		if plan.Name == planName {
+			timeline, error := client.DeliveryPlans.GetTimeLine(plan.ID)
+			if error != nil {
+				fmt.Println(error)
+			}
+
+			start, _ := time.Parse(time.RFC3339, timeline.StartDate)
+			end, _ := time.Parse(time.RFC3339, timeline.EndDate)
+			fmt.Printf("Start: %s\n", start.Format(appDateFormat))
+			fmt.Printf("End: %s\n", end.Format(appDateFormat))
+		}
+	}
 }

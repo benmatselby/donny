@@ -121,8 +121,14 @@ func main() {
 		},
 		{
 			Name:     "plan:list",
-			Usage:    "         List all the delivery plans",
+			Usage:    "     List all the delivery plans",
 			Action:   ListDeliveryPlans,
+			Category: "plans",
+		},
+		{
+			Name:     "plan:timeline",
+			Usage:    "     Show the delivery plan timeline",
+			Action:   GetDeliveryPlanTimeLine,
 			Category: "plans",
 		},
 		{
