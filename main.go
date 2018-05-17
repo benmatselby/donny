@@ -17,6 +17,10 @@ var (
 	client  *vsts.Client
 )
 
+const (
+	appDateFormat string = "02-01-2006 15:04"
+)
+
 func loadEnvironmentVars() (bool, error) {
 	account = os.Getenv("VSTS_ACCOUNT")
 	project = os.Getenv("VSTS_PROJECT")
@@ -75,7 +79,7 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:   "build:list",
-			Usage:  "List all the builds",
+			Usage:  "        List all the builds",
 			Action: ListBuilds,
 			Flags: []cli.Flag{
 				cli.IntFlag{Name: "count", Value: 10, Usage: "How many builds to display"},
@@ -116,8 +120,14 @@ func main() {
 			Category: "iteration",
 		},
 		{
+			Name:     "plan:list",
+			Usage:    "         List all the delivery plans",
+			Action:   ListDeliveryPlans,
+			Category: "plans",
+		},
+		{
 			Name:   "pr:list",
-			Usage:  "List all the pull requests",
+			Usage:  "           List all the pull requests",
 			Action: ListPullRequests,
 			Flags: []cli.Flag{
 				cli.StringFlag{Name: "state", Value: "active", Usage: "Filter by pull request state"},
