@@ -74,12 +74,10 @@ func main() {
 
 	client = vsts.NewClient(account, project, token)
 
-	usage := getUsage(false)
-
 	app := cli.NewApp()
 	app.Name = "donny"
 	app.Author = "@benmatselby"
-	app.Usage = usage
+	app.Usage = getUsage(false)
 	app.Version = version.GITCOMMIT
 	app.Commands = []cli.Command{
 		{
