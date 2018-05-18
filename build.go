@@ -54,18 +54,18 @@ func ListBuilds(c *cli.Context) {
 		}
 
 		if status == "inProgress" {
-			result = "🏗 "
+			result = appProgress
 		} else if status == "notStarted" {
-			result = "🗂 "
+			result = appPending
 		} else {
 			if result == "failed" {
-				result = "❌ "
+				result = appFailure
 			} else {
-				result = "✅ "
+				result = appSuccess
 			}
 		}
 
-		fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", result, name, branch, buildNo, finishAt)
+		fmt.Fprintf(w, "%s \t%s\t%s\t%s\t%s\n", result, name, branch, buildNo, finishAt)
 	}
 
 	w.Flush()

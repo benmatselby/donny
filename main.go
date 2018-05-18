@@ -20,6 +20,10 @@ var (
 const (
 	appDateFormat     string = "02-01-2006"
 	appDateTimeFormat string = "02-01-2006 15:04"
+	appSuccess        string = "✅"
+	appFailure        string = "❌"
+	appPending        string = "🗂"
+	appProgress       string = "🏗"
 )
 
 func loadEnvironmentVars() (bool, error) {
