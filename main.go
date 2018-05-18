@@ -18,7 +18,8 @@ var (
 )
 
 const (
-	appDateFormat string = "02-01-2006 15:04"
+	appDateFormat     string = "02-01-2006"
+	appDateTimeFormat string = "02-01-2006 15:04"
 )
 
 func loadEnvironmentVars() (bool, error) {
@@ -121,8 +122,14 @@ func main() {
 		},
 		{
 			Name:     "plan:list",
-			Usage:    "         List all the delivery plans",
+			Usage:    "     List all the delivery plans",
 			Action:   ListDeliveryPlans,
+			Category: "plans",
+		},
+		{
+			Name:     "plan:timeline",
+			Usage:    "     Show the delivery plan timeline",
+			Action:   GetDeliveryPlanTimeLine,
 			Category: "plans",
 		},
 		{
