@@ -24,6 +24,7 @@ const (
 	appFailure        string = "❌"
 	appPending        string = "🗂"
 	appProgress       string = "🏗"
+	appStale          string = "🕳"
 )
 
 func loadEnvironmentVars() (bool, error) {

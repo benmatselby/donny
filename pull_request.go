@@ -60,7 +60,7 @@ func ListPullRequests(c *cli.Context) {
 		if status == "completed" {
 			result = appSuccess
 		} else if status == "abandoned" {
-			result = "TODO"
+			result = appStale
 		} else {
 			result = appPending
 		}
