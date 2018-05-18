@@ -20,6 +20,7 @@ COMMANDS:
      iteration:people    Show people based data for the iteration
    plans:
      plan:list           List all the delivery plans
+     plan:timeline       Show the delivery plan timeline
    pull requests:
      pr:list             List all the pull requests
 ```
