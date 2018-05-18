@@ -142,7 +142,6 @@ func main() {
 				cli.StringFlag{Name: "state", Value: "active", Usage: "Filter by pull request state"},
 				cli.StringFlag{Name: "repo", Value: ".*", Usage: "Filter by repo name"},
 				cli.IntFlag{Name: "count", Value: 10, Usage: "How many pull requests to display"},
-				cli.BoolFlag{Name: "verbose, vv"},
 			},
 			Category: "pull requests",
 		},

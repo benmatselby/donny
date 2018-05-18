@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"regexp"
+	"text/tabwriter"
 	"time"
 
 	"github.com/benmatselby/go-vsts/vsts"
-	"github.com/fatih/color"
 	"github.com/urfave/cli"
 )
 
@@ -14,13 +15,13 @@ import (
 func ListPullRequests(c *cli.Context) {
 	state := c.String("state")
 	count := c.Int("count")
-	verbose := c.Bool("verbose")
 	filterRepo := c.String("repo")
 
 	options := &vsts.PullRequestListOptions{State: state}
 	pulls, _, error := client.PullRequests.List(options)
 	if error != nil {
 		fmt.Println(error)
+		return
 	}
 
 	if len(pulls) == 0 {
@@ -30,6 +31,9 @@ func ListPullRequests(c *cli.Context) {
 	if len(pulls) < count {
 		count = len(pulls)
 	}
+
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.FilterHTML)
+	fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", "", "ID", "Title", "Repo", "Created")
 
 	for index := 0; index < count; index++ {
 		pull := pulls[index]
@@ -47,25 +51,22 @@ func ListPullRequests(c *cli.Context) {
 
 		// Deal with date formatting
 		when, error := time.Parse(time.RFC3339, pull.Created)
-		whens := when.Format(appDateTimeFormat)
+		created := when.Format(appDateTimeFormat)
 		if error != nil {
-			whens = pull.Created
+			created = pull.Created
 		}
 
-		// Colourise the title based on state
+		var result string
 		if status == "completed" {
-			color.Green("#%d %s\n", pull.ID, title)
+			result = appSuccess
 		} else if status == "abandoned" {
-			color.Red("#%d %s\n", pull.ID, title)
+			result = "TODO"
 		} else {
-			color.Yellow("#%d %s\n", pull.ID, title)
+			result = appPending
 		}
-		if verbose && pull.Description != "" {
-			fmt.Printf("%s\n", pull.Description)
-		}
-		fmt.Printf("%s\n", repoName)
-		fmt.Printf("%v\n", whens)
 
-		fmt.Println("")
+		fmt.Fprintf(w, "%s \t%d\t%s\t%s\t%s\n", result, pull.ID, title, repoName, created)
 	}
+
+	w.Flush()
 }
