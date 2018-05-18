@@ -42,7 +42,7 @@ func ListBuilds(c *cli.Context) {
 
 		// Deal with date formatting for the finish time
 		finish, error := time.Parse(time.RFC3339, builds[index].FinishTime)
-		finishAt := finish.Format("2006-01-02 15:04:05")
+		finishAt := finish.Format(appDateTimeFormat)
 		if error != nil {
 			finishAt = builds[index].FinishTime
 		}
