@@ -40,11 +40,7 @@ func ListItemsInIteration(c *cli.Context) {
 		return
 	}
 
-	workItems, err := getWorkItemsByBoardColumn(items)
-	if err != nil {
-		fmt.Printf("could not get work items for board: %v", err)
-		return
-	}
+	workItems := getWorkItemsByBoardColumn(items)
 
 	// Get the board layout so we now how to render the columns in the right order
 	boards, err := client.Boards.List(team)
@@ -97,11 +93,7 @@ func ShowIterationBurndown(c *cli.Context) {
 		return
 	}
 
-	workItems, err := getWorkItemsByBoardColumn(items)
-	if err != nil {
-		fmt.Printf("could not get items for board: %v", err)
-		return
-	}
+	workItems := getWorkItemsByBoardColumn(items)
 
 	// Get the board layout so we now how to render the columns in the right order
 	boards, err := client.Boards.List(team)
@@ -159,11 +151,7 @@ func ShowIterationPeopleBreakdown(c *cli.Context) {
 		return
 	}
 
-	workItems, err := getWorkItemsByPerson(items)
-	if err != nil {
-		fmt.Printf("could not get work items for person: %v", err)
-		return
-	}
+	workItems := getWorkItemsByPerson(items)
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 1, 1, ' ', 0)
 	fmt.Fprintf(w, "%s\t%s\t%s\n", "Person", "Items", "Points")
@@ -205,7 +193,7 @@ func checkIterationDeclared(c *cli.Context) bool {
 	return true
 }
 
-func getWorkItemsByPerson(workItems []vsts.WorkItem) (map[string][]vsts.WorkItem, error) {
+func getWorkItemsByPerson(workItems []vsts.WorkItem) map[string][]vsts.WorkItem {
 	items := make(map[string][]vsts.WorkItem)
 
 	// Now build a map|slice|array (!) of
@@ -216,10 +204,10 @@ func getWorkItemsByPerson(workItems []vsts.WorkItem) (map[string][]vsts.WorkItem
 		items[key] = append(items[key], item)
 	}
 
-	return items, nil
+	return items
 }
 
-func getWorkItemsByBoardColumn(workItems []vsts.WorkItem) (map[string][]vsts.WorkItem, error) {
+func getWorkItemsByBoardColumn(workItems []vsts.WorkItem) map[string][]vsts.WorkItem {
 	items := make(map[string][]vsts.WorkItem)
 
 	// Now build a map|slice|array (!) of
@@ -234,14 +222,13 @@ func getWorkItemsByBoardColumn(workItems []vsts.WorkItem) (map[string][]vsts.Wor
 		items[key] = append(items[key], item)
 	}
 
-	return items, nil
+	return items
 }
 
 func getWorkItems(team string, iterationName string) ([]vsts.WorkItem, error) {
-	// Get the iteration by name
 	iteration, err := client.Iterations.GetByName(team, iterationName)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("could not get work items: %v", err)
 	}
 
 	if iteration == nil {
