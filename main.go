@@ -83,11 +83,21 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:   "build:list",
-			Usage:  "        List all the builds",
+			Usage:  "    List all the builds",
 			Action: ListBuilds,
 			Flags: []cli.Flag{
 				cli.IntFlag{Name: "count", Value: 10, Usage: "How many builds to display"},
 				cli.StringFlag{Name: "branch", Value: ".*", Usage: "Filter by branch name"},
+			},
+			Category: "build",
+		},
+		{
+			Name:   "build:overview",
+			Usage:  "    Show build overview for build definitions in a given path",
+			Action: ListBuildOverview,
+			Flags: []cli.Flag{
+				cli.StringFlag{Name: "path", Value: os.Getenv("VSTS_TEAM"), Usage: "Build definition path"},
+				cli.StringFlag{Name: "branch", Value: "master", Usage: "Filter by branch name"},
 			},
 			Category: "build",
 		},
