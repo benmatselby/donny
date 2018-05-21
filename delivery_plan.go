@@ -84,15 +84,17 @@ func GetDeliveryPlanTimeLine(c *cli.Context) {
 
 					fmt.Println(title)
 					fmt.Println(strings.Repeat("-", len(title)))
+					fmt.Println()
 
 					for _, item := range iteration.WorkItems {
 						fmt.Printf(
-							" * %v - %s\n",
+							"* %v - %s\n",
 							item[vsts.DeliveryPlanWorkItemIDKey],
 							item[vsts.DeliveryPlanWorkItemNameKey],
 						)
 					}
 
+					fmt.Println()
 					fmt.Println()
 				}
 
