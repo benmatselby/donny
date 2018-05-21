@@ -42,6 +42,7 @@ func ListDeliveryPlans(c *cli.Context) {
 // GetDeliveryPlanTimeLine will call the VSTS API and get a list of delivery plans
 func GetDeliveryPlanTimeLine(c *cli.Context) {
 	planName := c.Args()[0]
+	showTag := c.Bool("show-tag")
 
 	options := &vsts.DeliveryPlansListOptions{}
 	plans, _, err := client.DeliveryPlans.List(options)
@@ -87,11 +88,17 @@ func GetDeliveryPlanTimeLine(c *cli.Context) {
 					fmt.Println()
 
 					for _, item := range iteration.WorkItems {
-						fmt.Printf(
-							"* %v - %s\n",
+						line := fmt.Sprintf(
+							"* %v - %s",
 							item[vsts.DeliveryPlanWorkItemIDKey],
 							item[vsts.DeliveryPlanWorkItemNameKey],
 						)
+
+						if showTag {
+							line += fmt.Sprintf(" (%s)", item[vsts.DeliveryPlanWorkItemTagKey])
+						}
+
+						fmt.Println(line)
 					}
 
 					fmt.Println()
