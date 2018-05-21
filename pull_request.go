@@ -18,9 +18,9 @@ func ListPullRequests(c *cli.Context) {
 	filterRepo := c.String("repo")
 
 	options := &vsts.PullRequestListOptions{State: state}
-	pulls, _, error := client.PullRequests.List(options)
-	if error != nil {
-		fmt.Println(error)
+	pulls, _, err := client.PullRequests.List(options)
+	if err != nil {
+		fmt.Printf("could not get list of pull requests: %v", err)
 		return
 	}
 
@@ -50,9 +50,9 @@ func ListPullRequests(c *cli.Context) {
 		status := pull.Status
 
 		// Deal with date formatting
-		when, error := time.Parse(time.RFC3339, pull.Created)
+		when, err := time.Parse(time.RFC3339, pull.Created)
 		created := when.Format(appDateTimeFormat)
-		if error != nil {
+		if err != nil {
 			created = pull.Created
 		}
 

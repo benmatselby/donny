@@ -17,9 +17,9 @@ func ListBuilds(c *cli.Context) {
 	filterBranch := c.String("branch")
 
 	options := &vsts.BuildsListOptions{}
-	builds, error := client.Builds.List(options)
-	if error != nil {
-		fmt.Println(error)
+	builds, err := client.Builds.List(options)
+	if err != nil {
+		fmt.Println(err)
 	}
 
 	if len(builds) == 0 {
@@ -41,9 +41,9 @@ func ListBuilds(c *cli.Context) {
 		branch := build.Branch
 
 		// Deal with date formatting for the finish time
-		finish, error := time.Parse(time.RFC3339, builds[index].FinishTime)
+		finish, err := time.Parse(time.RFC3339, builds[index].FinishTime)
 		finishAt := finish.Format(appDateTimeFormat)
-		if error != nil {
+		if err != nil {
 			finishAt = builds[index].FinishTime
 		}
 

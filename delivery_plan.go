@@ -14,9 +14,9 @@ import (
 // ListDeliveryPlans will call the VSTS API and get a list of delivery plans
 func ListDeliveryPlans(c *cli.Context) {
 	options := &vsts.DeliveryPlansListOptions{}
-	plans, _, error := client.DeliveryPlans.List(options)
-	if error != nil {
-		fmt.Println(error)
+	plans, _, err := client.DeliveryPlans.List(options)
+	if err != nil {
+		fmt.Println(err)
 	}
 
 	if len(plans) == 0 {
@@ -28,9 +28,9 @@ func ListDeliveryPlans(c *cli.Context) {
 
 	for _, plan := range plans {
 		// Deal with date formatting for the finish time
-		created, error := time.Parse(time.RFC3339, plan.Created)
+		created, err := time.Parse(time.RFC3339, plan.Created)
 		createdOn := created.Format(appDateFormat)
-		if error != nil {
+		if err != nil {
 			createdOn = plan.Created
 		}
 
@@ -44,9 +44,9 @@ func GetDeliveryPlanTimeLine(c *cli.Context) {
 	planName := c.Args()[0]
 
 	options := &vsts.DeliveryPlansListOptions{}
-	plans, _, error := client.DeliveryPlans.List(options)
-	if error != nil {
-		fmt.Println(error)
+	plans, _, err := client.DeliveryPlans.List(options)
+	if err != nil {
+		fmt.Println(err)
 	}
 
 	if len(plans) == 0 {
@@ -55,9 +55,9 @@ func GetDeliveryPlanTimeLine(c *cli.Context) {
 
 	for _, plan := range plans {
 		if plan.Name == planName {
-			timeline, error := client.DeliveryPlans.GetTimeLine(plan.ID)
-			if error != nil {
-				fmt.Println(error)
+			timeline, err := client.DeliveryPlans.GetTimeLine(plan.ID)
+			if err != nil {
+				fmt.Println(err)
 			}
 
 			start, _ := time.Parse(time.RFC3339, timeline.StartDate)
