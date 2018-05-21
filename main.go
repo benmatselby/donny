@@ -102,7 +102,7 @@ func main() {
 		},
 		{
 			Name:   "iteration:items",
-			Usage:  "List the work items in a given iteration",
+			Usage:  "List all the work items in a given iteration",
 			Action: ListItemsInIteration,
 			Flags: []cli.Flag{
 				cli.StringFlag{Name: "board", Value: "Stories", Usage: "Display board by type"},
@@ -131,7 +131,7 @@ func main() {
 		},
 		{
 			Name:   "plan:timeline",
-			Usage:  "     Show the delivery plan timeline",
+			Usage:  "     Show the timeline for the delivery plan",
 			Action: GetDeliveryPlanTimeLine,
 			Flags: []cli.Flag{
 				cli.BoolFlag{Name: "show-tags", Usage: "Should we show any tags for the items in the plan"},
