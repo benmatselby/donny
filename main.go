@@ -134,7 +134,7 @@ func main() {
 			Usage:  "     Show the delivery plan timeline",
 			Action: GetDeliveryPlanTimeLine,
 			Flags: []cli.Flag{
-				cli.BoolFlag{Name: "show-tag", Usage: "Should we show any tags for the items in the plan"},
+				cli.BoolFlag{Name: "show-tags", Usage: "Should we show any tags for the items in the plan"},
 			},
 			Category: "plans",
 		},
