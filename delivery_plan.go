@@ -56,9 +56,10 @@ func GetDeliveryPlanTimeLine(c *cli.Context) {
 
 	for _, plan := range plans {
 		if plan.Name == planName {
-			timeline, err := client.DeliveryPlans.GetTimeLine(plan.ID)
+			timeline, err := client.DeliveryPlans.GetTimeLine(plan.ID, "", "")
 			if err != nil {
 				fmt.Println(err)
+				return
 			}
 
 			start, _ := time.Parse(time.RFC3339, timeline.StartDate)
