@@ -52,14 +52,3 @@ all: clean install vet build test
 
 .PHONY: static-all
 static-all: clean install vet static test
-
-.PHONY: docker-build
-docker-build:
-	docker build -t $(DOCKER_PREFIX)/$(NAME) .
-
-.PHONY: docker-push
-docker-push:
-	docker push $(DOCKER_PREFIX)/$(NAME)
-
-.PHONY: docker-all
-docker-all: docker-build docker-push
