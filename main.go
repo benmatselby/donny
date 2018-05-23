@@ -74,6 +74,7 @@ func main() {
 	}
 
 	client = vsts.NewClient(account, project, token)
+	client.UserAgent = "donny/go-vsts"
 
 	app := cli.NewApp()
 	app.Name = "donny"
