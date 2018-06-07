@@ -25,6 +25,7 @@ const (
 	appPending        string = "🗂"
 	appProgress       string = "🏗"
 	appStale          string = "🕳"
+	appUnknown        string = "❓"
 )
 
 func loadEnvironmentVars() (bool, error) {
@@ -105,6 +106,13 @@ func main() {
 			Category: "build",
 		},
 		{
+			Name:     "code:branches",
+			Usage:    "     Show branch information for a repo",
+			Action:   ShowGitBranchInfo,
+			Aliases:  []string{"cb"},
+			Category: "code",
+		},
+		{
 			Name:    "iteration:burndown",
 			Usage:   "Show column based data for the iteration",
 			Action:  ShowIterationBurndown,
@@ -142,14 +150,14 @@ func main() {
 		},
 		{
 			Name:     "plan:list",
-			Usage:    "     List all the delivery plans",
+			Usage:    "    List all the delivery plans",
 			Action:   ListDeliveryPlans,
 			Aliases:  []string{"pll"},
 			Category: "plans",
 		},
 		{
 			Name:    "plan:timeline",
-			Usage:   "     Show the timeline for the delivery plan",
+			Usage:   "    Show the timeline for the delivery plan",
 			Action:  GetDeliveryPlanTimeLine,
 			Aliases: []string{"plt"},
 			Flags: []cli.Flag{
@@ -159,7 +167,7 @@ func main() {
 		},
 		{
 			Name:    "pr:list",
-			Usage:   "           List all the pull requests",
+			Usage:   "          List all the pull requests",
 			Action:  ListPullRequests,
 			Aliases: []string{"pul"},
 			Flags: []cli.Flag{
