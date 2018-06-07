@@ -37,6 +37,8 @@ func ShowGitBranchInfo(c *cli.Context) {
 
 			if state == "failed" {
 				state = appFailure
+			} else if state == "pending" {
+				state = appPending
 			} else {
 				state = appSuccess
 			}
