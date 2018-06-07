@@ -50,7 +50,7 @@ func ListBuildOverview(c *cli.Context) {
 	var builds []vsts.Build
 	for _, definition := range definitions {
 		for _, branchName := range strings.Split(filterBranch, ",") {
-			build, err := getVstsBuildsForBranch(definition.ID, branchName)
+			build, err := getBuildsForBranch(definition.ID, branchName)
 			if err != nil {
 				fmt.Printf("unable to get builds for definition %s: %v", definition.Name, err)
 			}
@@ -63,7 +63,7 @@ func ListBuildOverview(c *cli.Context) {
 	renderBuilds(builds, len(builds), ".*")
 }
 
-func getVstsBuildsForBranch(defID int, branchName string) ([]vsts.Build, error) {
+func getBuildsForBranch(defID int, branchName string) ([]vsts.Build, error) {
 	buildOpts := vsts.BuildsListOptions{Definitions: strconv.Itoa(defID), Branch: "refs/heads/" + branchName, Count: 1}
 	build, err := client.Builds.List(&buildOpts)
 	return build, err
