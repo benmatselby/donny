@@ -12,9 +12,8 @@ import (
 // ShowGitBranchInfo will get branch information for a repo
 func ShowGitBranchInfo(c *cli.Context) {
 	if len(c.Args()) < 1 {
-		fmt.Printf("Please specify a repo\n")
 		cli.ShowSubcommandHelp(c)
-		return
+		os.Exit(2)
 	}
 
 	repo := c.Args()[0]
@@ -25,7 +24,8 @@ func ShowGitBranchInfo(c *cli.Context) {
 	}
 	refs, _, err := client.Git.ListRefs(repo, "heads", &gitRefOps)
 	if err != nil {
-		fmt.Printf("unable to get git refs for %s: %+v", repo, err)
+		fmt.Fprintf(os.Stderr, "unable to get git refs for %s: %+v", repo, err)
+		os.Exit(2)
 	}
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.FilterHTML)

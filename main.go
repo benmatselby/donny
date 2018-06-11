@@ -28,17 +28,17 @@ const (
 	appUnknown        string = "❓"
 )
 
-func loadEnvironmentVars() (bool, error) {
+func loadEnvironmentVars() error {
 	account = os.Getenv("VSTS_ACCOUNT")
 	project = os.Getenv("VSTS_PROJECT")
 	team = os.Getenv("VSTS_TEAM")
 	token = os.Getenv("VSTS_TOKEN")
 
 	if account == "" || project == "" || team == "" || token == "" {
-		return false, fmt.Errorf("Env not all set")
+		return fmt.Errorf("The environment variables are not all set")
 	}
 
-	return true, nil
+	return nil
 }
 
 func getUsage(withError bool) string {
@@ -68,10 +68,10 @@ In order for donny to integrate with VSTS, you need to define the following envi
 }
 
 func main() {
-	_, err := loadEnvironmentVars()
+	err := loadEnvironmentVars()
 	if err != nil {
-		fmt.Println(getUsage(true))
-		return
+		fmt.Fprintln(os.Stderr, getUsage(true))
+		os.Exit(2)
 	}
 
 	client = vsts.NewClient(account, project, token)
@@ -85,7 +85,7 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:    "build:list",
-			Usage:   "    List all the builds",
+			Usage:   "List all the builds",
 			Action:  ListBuilds,
 			Aliases: []string{"bl"},
 			Flags: []cli.Flag{
@@ -96,7 +96,7 @@ func main() {
 		},
 		{
 			Name:    "build:overview",
-			Usage:   "    Show build overview for build definitions in a given path",
+			Usage:   "Show build overview for build definitions in a given path",
 			Action:  ListBuildOverview,
 			Aliases: []string{"bo"},
 			Flags: []cli.Flag{
@@ -107,7 +107,7 @@ func main() {
 		},
 		{
 			Name:     "code:branches",
-			Usage:    "     Show branch information for a repo",
+			Usage:    "Show branch information for a repo",
 			Action:   ShowGitBranchInfo,
 			Aliases:  []string{"cb"},
 			Category: "code",
@@ -150,14 +150,14 @@ func main() {
 		},
 		{
 			Name:     "plan:list",
-			Usage:    "    List all the delivery plans",
+			Usage:    "List all the delivery plans",
 			Action:   ListDeliveryPlans,
 			Aliases:  []string{"pll"},
 			Category: "plans",
 		},
 		{
 			Name:    "plan:timeline",
-			Usage:   "    Show the timeline for the delivery plan",
+			Usage:   "Show the timeline for the delivery plan",
 			Action:  GetDeliveryPlanTimeLine,
 			Aliases: []string{"plt"},
 			Flags: []cli.Flag{
@@ -167,7 +167,7 @@ func main() {
 		},
 		{
 			Name:    "pr:list",
-			Usage:   "          List all the pull requests",
+			Usage:   "List all the pull requests",
 			Action:  ListPullRequests,
 			Aliases: []string{"pul"},
 			Flags: []cli.Flag{

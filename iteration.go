@@ -14,8 +14,8 @@ import (
 func ListIterations(c *cli.Context) {
 	iterations, err := client.Iterations.List(team)
 	if err != nil {
-		fmt.Printf("could not list iterations: %v", err)
-		return
+		fmt.Fprintf(os.Stderr, "could not list iterations: %v", err)
+		os.Exit(2)
 	}
 
 	for index := 0; index < len(iterations); index++ {
@@ -25,9 +25,7 @@ func ListIterations(c *cli.Context) {
 
 // ListItemsInIteration will call the VSTS API and get a list of items for an iteration
 func ListItemsInIteration(c *cli.Context) {
-	if !checkIterationDeclared(c) {
-		return
-	}
+	checkIterationDeclared(c)
 
 	iterationName := c.Args()[0]
 	boardName := c.String("board")
@@ -36,8 +34,8 @@ func ListItemsInIteration(c *cli.Context) {
 
 	items, err := getWorkItems(team, iterationName)
 	if err != nil {
-		fmt.Printf("could not get work items for %s: %v", iterationName, err)
-		return
+		fmt.Fprint(os.Stderr, err)
+		os.Exit(2)
 	}
 
 	workItems := getWorkItemsByBoardColumn(items)
@@ -45,8 +43,8 @@ func ListItemsInIteration(c *cli.Context) {
 	// Get the board layout so we now how to render the columns in the right order
 	boards, err := client.Boards.List(team)
 	if err != nil {
-		fmt.Printf("could not list boards: %v", err)
-		return
+		fmt.Fprintf(os.Stderr, "could not list the boards: %v", err)
+		os.Exit(2)
 	}
 
 	// We need to get the specific board we are interested in
@@ -54,7 +52,8 @@ func ListItemsInIteration(c *cli.Context) {
 		if board.Name == boardName {
 			b, err := client.Boards.Get(team, board.ID)
 			if err != nil {
-				fmt.Printf("could not get board: %v", err)
+				fmt.Fprintf(os.Stderr, "could not get board: %v", err)
+				os.Exit(2)
 			}
 
 			// Now we want a string we can display
@@ -80,17 +79,15 @@ func ListItemsInIteration(c *cli.Context) {
 
 // ShowIterationBurndown will display column based data that helps with a daily burndown
 func ShowIterationBurndown(c *cli.Context) {
-	if !checkIterationDeclared(c) {
-		return
-	}
+	checkIterationDeclared(c)
 
 	iterationName := c.Args()[0]
 	boardName := c.String("board")
 
 	items, err := getWorkItems(team, iterationName)
 	if err != nil {
-		fmt.Printf("could not get work items: %v", err)
-		return
+		fmt.Fprint(os.Stderr, err)
+		os.Exit(2)
 	}
 
 	workItems := getWorkItemsByBoardColumn(items)
@@ -98,8 +95,8 @@ func ShowIterationBurndown(c *cli.Context) {
 	// Get the board layout so we now how to render the columns in the right order
 	boards, err := client.Boards.List(team)
 	if err != nil {
-		fmt.Printf("could not list boards: %v", err)
-		return
+		fmt.Fprintf(os.Stderr, "could not list boards: %v", err)
+		os.Exit(2)
 	}
 
 	// We need to get the specific board we are interested in
@@ -107,7 +104,8 @@ func ShowIterationBurndown(c *cli.Context) {
 		if board.Name == boardName {
 			b, err := client.Boards.Get(team, board.ID)
 			if err != nil {
-				fmt.Printf("could not get board: %v", err)
+				fmt.Fprintf(os.Stderr, "could not get board: %v", err)
+				os.Exit(2)
 			}
 			// Now we want a string we can display
 			w := tabwriter.NewWriter(os.Stdout, 0, 1, 1, ' ', 0)
@@ -139,16 +137,14 @@ func ShowIterationBurndown(c *cli.Context) {
 
 // ShowIterationPeopleBreakdown will display people based data for the iteration
 func ShowIterationPeopleBreakdown(c *cli.Context) {
-	if !checkIterationDeclared(c) {
-		return
-	}
+	checkIterationDeclared(c)
 
 	iterationName := c.Args()[0]
 
 	items, err := getWorkItems(team, iterationName)
 	if err != nil {
-		fmt.Printf("could not get work items for %s: %v", iterationName, err)
-		return
+		fmt.Fprint(os.Stderr, err)
+		os.Exit(2)
 	}
 
 	workItems := getWorkItemsByPerson(items)
@@ -183,14 +179,11 @@ func ShowIterationPeopleBreakdown(c *cli.Context) {
 	w.Flush()
 }
 
-func checkIterationDeclared(c *cli.Context) bool {
+func checkIterationDeclared(c *cli.Context) {
 	if len(c.Args()) < 1 {
-		fmt.Printf("Please specify an iteration\n")
 		cli.ShowSubcommandHelp(c)
-		return false
+		os.Exit(2)
 	}
-
-	return true
 }
 
 func getWorkItemsByPerson(workItems []vsts.WorkItem) map[string][]vsts.WorkItem {
@@ -228,7 +221,7 @@ func getWorkItemsByBoardColumn(workItems []vsts.WorkItem) map[string][]vsts.Work
 func getWorkItems(team string, iterationName string) ([]vsts.WorkItem, error) {
 	iteration, err := client.Iterations.GetByName(team, iterationName)
 	if err != nil {
-		return nil, fmt.Errorf("could not get work items: %v", err)
+		return nil, fmt.Errorf("could not get work items for %s: %v", iterationName, err)
 	}
 
 	if iteration == nil {

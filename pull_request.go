@@ -20,8 +20,8 @@ func ListPullRequests(c *cli.Context) {
 	options := &vsts.PullRequestListOptions{State: state}
 	pulls, _, err := client.PullRequests.List(options)
 	if err != nil {
-		fmt.Printf("could not get list of pull requests: %v", err)
-		return
+		fmt.Fprintf(os.Stderr, "could not get list of pull requests: %v", err)
+		os.Exit(2)
 	}
 
 	if len(pulls) == 0 {
