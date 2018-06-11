@@ -16,7 +16,8 @@ func ListDeliveryPlans(c *cli.Context) {
 	options := &vsts.DeliveryPlansListOptions{}
 	plans, _, err := client.DeliveryPlans.List(options)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "unable to get a list of delivery plans: %v", err)
+		os.Exit(2)
 	}
 
 	if len(plans) == 0 {
@@ -41,13 +42,18 @@ func ListDeliveryPlans(c *cli.Context) {
 
 // GetDeliveryPlanTimeLine will call the VSTS API and get a list of delivery plans
 func GetDeliveryPlanTimeLine(c *cli.Context) {
+	if len(c.Args()) < 1 {
+		cli.ShowSubcommandHelp(c)
+		os.Exit(2)
+	}
 	planName := c.Args()[0]
 	showTag := c.Bool("show-tags")
 
 	options := &vsts.DeliveryPlansListOptions{}
 	plans, _, err := client.DeliveryPlans.List(options)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "unable to get a list of delivery plans: %v", err)
+		os.Exit(2)
 	}
 
 	if len(plans) == 0 {
@@ -58,7 +64,7 @@ func GetDeliveryPlanTimeLine(c *cli.Context) {
 		if plan.Name == planName {
 			timeline, err := client.DeliveryPlans.GetTimeLine(plan.ID, "", "")
 			if err != nil {
-				fmt.Println(err)
+				fmt.Fprintf(os.Stderr, "unable to get the delivery plan timeline time for %s: %v", plan.ID, err)
 				return
 			}
 

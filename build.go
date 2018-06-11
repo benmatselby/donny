@@ -21,7 +21,8 @@ func ListBuilds(c *cli.Context) {
 	options := &vsts.BuildsListOptions{}
 	builds, err := client.Builds.List(options)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "unable to get a list of builds: %v", err)
+		os.Exit(2)
 	}
 
 	if len(builds) == 0 {
@@ -43,8 +44,8 @@ func ListBuildOverview(c *cli.Context) {
 	buildDefOpts := vsts.BuildDefinitionsListOptions{Path: "\\" + path}
 	definitions, err := client.BuildDefinitions.List(&buildDefOpts)
 	if err != nil {
-		fmt.Printf("unable to get a list of build definitions: %v", err)
-		return
+		fmt.Fprintf(os.Stderr, "unable to get a list of build definitions: %v", err)
+		os.Exit(2)
 	}
 
 	var builds []vsts.Build
