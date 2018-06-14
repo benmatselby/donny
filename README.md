@@ -25,6 +25,14 @@ COMMANDS:
      pr:list             List all the pull requests
 ```
 
+# Requirements
+
+If you are wanting to build and develop this, you will need the following items installed. If, however, you just want to run the application I recommend using the docker container (See below)
+
+
+* Go version 1.10+
+* [Dep installed](https://github.com/golang/dep)
+
 
 # Configuration
 
@@ -47,6 +55,8 @@ $ ./donny iteration:list
 ```
 
 # Installation via Docker
+
+Other than requiring [docker](http://docker.com) to be installed, there are no other requirements to run the application this way
 
 ```
 $ docker run \
