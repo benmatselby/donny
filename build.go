@@ -18,7 +18,9 @@ func ListBuilds(c *cli.Context) {
 	count := c.Int("count")
 	filterBranch := c.String("branch")
 
-	options := &vsts.BuildsListOptions{}
+	options := &vsts.BuildsListOptions{
+		Count: count,
+	}
 	builds, err := client.Builds.List(options)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "unable to get a list of builds: %v", err)
@@ -29,11 +31,7 @@ func ListBuilds(c *cli.Context) {
 		return
 	}
 
-	if len(builds) < count {
-		count = len(builds)
-	}
-
-	renderBuilds(builds, count, filterBranch)
+	renderBuilds(builds, len(builds), filterBranch)
 }
 
 // ListBuildOverview will call the VSTS API and get a list of builds for a given path
