@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
+	"sync"
 	"text/tabwriter"
 	"time"
 
@@ -46,18 +48,37 @@ func ListBuildOverview(c *cli.Context) {
 		os.Exit(2)
 	}
 
-	var builds []vsts.Build
+	results := make(chan vsts.Build)
+	var wg sync.WaitGroup
+	wg.Add(len(definitions))
+
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
+
 	for _, definition := range definitions {
-		for _, branchName := range strings.Split(filterBranch, ",") {
-			build, err := getBuildsForBranch(definition.ID, branchName)
-			if err != nil {
-				fmt.Printf("unable to get builds for definition %s: %v", definition.Name, err)
+		go func(definition vsts.BuildDefinition) {
+			defer wg.Done()
+
+			for _, branchName := range strings.Split(filterBranch, ",") {
+				builds, err := getBuildsForBranch(definition.ID, branchName)
+				if err != nil {
+					fmt.Printf("unable to get builds for definition %s: %v", definition.Name, err)
+				}
+				if len(builds) > 0 {
+					results <- builds[0]
+				}
 			}
-			if len(build) > 0 {
-				builds = append(builds, build[0])
-			}
-		}
+		}(definition)
 	}
+
+	var builds []vsts.Build
+	for result := range results {
+		builds = append(builds, result)
+	}
+
+	sort.Slice(builds, func(i, j int) bool { return builds[i].Definition.Name < builds[j].Definition.Name })
 
 	renderBuilds(builds, len(builds), ".*")
 }
