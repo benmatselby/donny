@@ -3,25 +3,34 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:4f23556459b0306fdf3f408e82c551ef05eb72ffc0f32b5b8a609bd7d9e4c323"
   name = "github.com/benmatselby/go-vsts"
   packages = ["vsts"]
+  pruneopts = "UT"
   revision = "68d296d5d564279b3640c8ffb93d51d4dac4c380"
 
 [[projects]]
   branch = "master"
+  digest = "1:a63cff6b5d8b95638bfe300385d93b2a6d9d687734b863da8e09dc834510a690"
   name = "github.com/google/go-querystring"
   packages = ["query"]
+  pruneopts = "UT"
   revision = "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
 
 [[projects]]
+  digest = "1:b24d38b282bacf9791408a080f606370efa3d364e4b5fd9ba0f7b87786d3b679"
   name = "github.com/urfave/cli"
   packages = ["."]
+  pruneopts = "UT"
   revision = "cfb38830724cc34fedffe9a2a29fb54fa9169cd1"
   version = "v1.20.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f3cda4c063f0d224de3bf26b6fc04bb605e8aa8cbfce20192ac39724e82f2198"
+  input-imports = [
+    "github.com/benmatselby/go-vsts/vsts",
+    "github.com/urfave/cli",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
