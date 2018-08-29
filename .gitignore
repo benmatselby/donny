@@ -1,6 +1,7 @@
 donny
 coverage.out
 profile.out
+trace.out
 debug.test
 vendor/
 debug
