@@ -50,7 +50,7 @@ func getUsage(withError bool) string {
 |  '--'  |   --'  | |  |\   | |  |\   |     |  |
 |_______/ \______/  |__| \__| |__| \__|     |__|
 
-CLI Application to get data out of Visual Studio Team Services into the terminal, where we belong...
+CLI Application to get data out of Azure DevOps into the terminal, where we belong...
 `
 	if withError {
 		usage = usage + `
