@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/benmatselby/donny/version"
-	"github.com/benmatselby/go-vsts/vsts"
+	"github.com/benmatselby/go-azuredevops/azuredevops"
 	"github.com/urfave/cli"
 )
 
@@ -14,7 +14,7 @@ var (
 	project string
 	team    string
 	token   string
-	client  *vsts.Client
+	client  *azuredevops.Client
 )
 
 const (
@@ -29,10 +29,10 @@ const (
 )
 
 func loadEnvironmentVars() error {
-	account = os.Getenv("VSTS_ACCOUNT")
-	project = os.Getenv("VSTS_PROJECT")
-	team = os.Getenv("VSTS_TEAM")
-	token = os.Getenv("VSTS_TOKEN")
+	account = os.Getenv("AZURE_DEVOPS_ACCOUNT")
+	project = os.Getenv("AZURE_DEVOPS_PROJECT")
+	team = os.Getenv("AZURE_DEVOPS_TEAM")
+	token = os.Getenv("AZURE_DEVOPS_TOKEN")
 
 	if account == "" || project == "" || team == "" || token == "" {
 		return fmt.Errorf("The environment variables are not all set")
@@ -55,12 +55,12 @@ CLI Application to get data out of Visual Studio Team Services into the terminal
 	if withError {
 		usage = usage + `
 
-In order for donny to integrate with VSTS, you need to define the following environment variables:
+In order for donny to integrate with Azure DevOps, you need to define the following environment variables:
 
-* VSTS_ACCOUNT = %s
-* VSTS_PROJECT = %s
-* VSTS_TEAM    = %s
-* VSTS_TOKEN   = %s
+* AZURE_DEVOPS_ACCOUNT = %s
+* AZURE_DEVOPS_PROJECT = %s
+* AZURE_DEVOPS_TEAM    = %s
+* AZURE_DEVOPS_TOKEN   = %s
 `
 	}
 
@@ -74,8 +74,8 @@ func main() {
 		os.Exit(2)
 	}
 
-	client = vsts.NewClient(account, project, token)
-	client.UserAgent = "donny/go-vsts"
+	client = azuredevops.NewClient(account, project, token)
+	client.UserAgent = "donny/go-azuredevops"
 
 	app := cli.NewApp()
 	app.Name = "donny"
@@ -100,7 +100,7 @@ func main() {
 			Action:  ListBuildOverview,
 			Aliases: []string{"bo"},
 			Flags: []cli.Flag{
-				cli.StringFlag{Name: "path", Value: os.Getenv("VSTS_TEAM"), Usage: "Build definition path"},
+				cli.StringFlag{Name: "path", Value: os.Getenv("AZURE_DEVOPS_TEAM"), Usage: "Build definition path"},
 				cli.StringFlag{Name: "branch", Value: "master", Usage: "Filter by branch name"},
 			},
 			Category: "build",

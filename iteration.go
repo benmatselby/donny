@@ -6,11 +6,11 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/benmatselby/go-vsts/vsts"
+	"github.com/benmatselby/go-azuredevops/azuredevops"
 	"github.com/urfave/cli"
 )
 
-// ListIterations will call the VSTS API and get a list of iterations
+// ListIterations will call the API and get a list of iterations
 func ListIterations(c *cli.Context) {
 	iterations, err := client.Iterations.List(team)
 	if err != nil {
@@ -23,7 +23,7 @@ func ListIterations(c *cli.Context) {
 	}
 }
 
-// ListItemsInIteration will call the VSTS API and get a list of items for an iteration
+// ListItemsInIteration will call the API and get a list of items for an iteration
 func ListItemsInIteration(c *cli.Context) {
 	checkIterationDeclared(c)
 
@@ -186,8 +186,8 @@ func checkIterationDeclared(c *cli.Context) {
 	}
 }
 
-func getWorkItemsByPerson(workItems []vsts.WorkItem) map[string][]vsts.WorkItem {
-	items := make(map[string][]vsts.WorkItem)
+func getWorkItemsByPerson(workItems []azuredevops.WorkItem) map[string][]azuredevops.WorkItem {
+	items := make(map[string][]azuredevops.WorkItem)
 
 	// Now build a map|slice|array (!) of
 	// Person => Items[]
@@ -200,8 +200,8 @@ func getWorkItemsByPerson(workItems []vsts.WorkItem) map[string][]vsts.WorkItem 
 	return items
 }
 
-func getWorkItemsByBoardColumn(workItems []vsts.WorkItem) map[string][]vsts.WorkItem {
-	items := make(map[string][]vsts.WorkItem)
+func getWorkItemsByBoardColumn(workItems []azuredevops.WorkItem) map[string][]azuredevops.WorkItem {
+	items := make(map[string][]azuredevops.WorkItem)
 
 	// Now build a map|slice|array (!) of
 	// BoardColumn => Items[]
@@ -218,7 +218,7 @@ func getWorkItemsByBoardColumn(workItems []vsts.WorkItem) map[string][]vsts.Work
 	return items
 }
 
-func getWorkItems(team string, iterationName string) ([]vsts.WorkItem, error) {
+func getWorkItems(team string, iterationName string) ([]azuredevops.WorkItem, error) {
 	iteration, err := client.Iterations.GetByName(team, iterationName)
 	if err != nil {
 		return nil, fmt.Errorf("could not get work items for %s: %v", iterationName, err)

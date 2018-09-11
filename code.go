@@ -5,7 +5,7 @@ import (
 	"os"
 	"text/tabwriter"
 
-	"github.com/benmatselby/go-vsts/vsts"
+	"github.com/benmatselby/go-azuredevops/azuredevops"
 	"github.com/urfave/cli"
 )
 
@@ -18,7 +18,7 @@ func ShowGitBranchInfo(c *cli.Context) {
 
 	repo := c.Args()[0]
 
-	gitRefOps := vsts.GitRefListOptions{
+	gitRefOps := azuredevops.GitRefListOptions{
 		IncludeStatuses:    true,
 		LatestStatusesOnly: true,
 	}

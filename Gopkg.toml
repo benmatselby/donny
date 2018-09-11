@@ -35,4 +35,4 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/benmatselby/go-vsts"
+  name = "github.com/benmatselby/go-azuredevops"
