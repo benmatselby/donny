@@ -7,17 +7,17 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/benmatselby/go-vsts/vsts"
+	"github.com/benmatselby/go-azuredevops/azuredevops"
 	"github.com/urfave/cli"
 )
 
-// ListPullRequests will call the VSTS API and get a list of iterations
+// ListPullRequests will call the API and get a list of iterations
 func ListPullRequests(c *cli.Context) {
 	state := c.String("state")
 	count := c.Int("count")
 	filterRepo := c.String("repo")
 
-	options := &vsts.PullRequestListOptions{State: state}
+	options := &azuredevops.PullRequestListOptions{State: state}
 	pulls, _, err := client.PullRequests.List(options)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "could not get list of pull requests: %v", err)

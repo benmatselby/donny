@@ -11,16 +11,16 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/benmatselby/go-vsts/vsts"
+	"github.com/benmatselby/go-azuredevops/azuredevops"
 	"github.com/urfave/cli"
 )
 
-// ListBuilds will call the VSTS API and get a list of builds
+// ListBuilds will call the API and get a list of builds
 func ListBuilds(c *cli.Context) {
 	count := c.Int("count")
 	filterBranch := c.String("branch")
 
-	options := &vsts.BuildsListOptions{
+	options := &azuredevops.BuildsListOptions{
 		Count: count,
 	}
 	builds, err := client.Builds.List(options)
@@ -36,19 +36,19 @@ func ListBuilds(c *cli.Context) {
 	renderBuilds(builds, len(builds), filterBranch)
 }
 
-// ListBuildOverview will call the VSTS API and get a list of builds for a given path
+// ListBuildOverview will call the API and get a list of builds for a given path
 func ListBuildOverview(c *cli.Context) {
 	filterBranch := c.String("branch")
 	path := c.String("path")
 
-	buildDefOpts := vsts.BuildDefinitionsListOptions{Path: "\\" + path}
+	buildDefOpts := azuredevops.BuildDefinitionsListOptions{Path: "\\" + path}
 	definitions, err := client.BuildDefinitions.List(&buildDefOpts)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "unable to get a list of build definitions: %v", err)
 		os.Exit(2)
 	}
 
-	results := make(chan vsts.Build)
+	results := make(chan azuredevops.Build)
 	var wg sync.WaitGroup
 	wg.Add(len(definitions))
 
@@ -58,7 +58,7 @@ func ListBuildOverview(c *cli.Context) {
 	}()
 
 	for _, definition := range definitions {
-		go func(definition vsts.BuildDefinition) {
+		go func(definition azuredevops.BuildDefinition) {
 			defer wg.Done()
 
 			for _, branchName := range strings.Split(filterBranch, ",") {
@@ -73,7 +73,7 @@ func ListBuildOverview(c *cli.Context) {
 		}(definition)
 	}
 
-	var builds []vsts.Build
+	var builds []azuredevops.Build
 	for result := range results {
 		builds = append(builds, result)
 	}
@@ -83,13 +83,13 @@ func ListBuildOverview(c *cli.Context) {
 	renderBuilds(builds, len(builds), ".*")
 }
 
-func getBuildsForBranch(defID int, branchName string) ([]vsts.Build, error) {
-	buildOpts := vsts.BuildsListOptions{Definitions: strconv.Itoa(defID), Branch: "refs/heads/" + branchName, Count: 1}
+func getBuildsForBranch(defID int, branchName string) ([]azuredevops.Build, error) {
+	buildOpts := azuredevops.BuildsListOptions{Definitions: strconv.Itoa(defID), Branch: "refs/heads/" + branchName, Count: 1}
 	build, err := client.Builds.List(&buildOpts)
 	return build, err
 }
 
-func renderBuilds(builds []vsts.Build, count int, filterBranch string) {
+func renderBuilds(builds []azuredevops.Build, count int, filterBranch string) {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.FilterHTML)
 	fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", "", "Name", "Branch", "Build", "Finished")
 	for index := 0; index < count; index++ {

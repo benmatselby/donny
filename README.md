@@ -5,7 +5,7 @@
 
 _Forget it, Donny, you're out of your element!_
 
-CLI application for getting information out of Visual Studio Team Services. It's based on [Trello CLI](https://github.com/benmatselby/trello-cli) so the aims are the same:
+CLI application for getting information out of Azure DevOps. It's based on [Trello CLI](https://github.com/benmatselby/trello-cli) so the aims are the same:
 
 ```
 COMMANDS:
@@ -38,31 +38,31 @@ If you are wanting to build and develop this, you will need the following items 
 
 You will need the following environment variables defining:
 
-```
-$ export VSTS_ACCOUNT=""
-$ export VSTS_PROJECT=""
-$ export VSTS_TEAM=""
-$ export VSTS_TOKEN=""
+```bash
+$ export AZURE_DEVOPS_ACCOUNT=""
+$ export AZURE_DEVOPS_PROJECT=""
+$ export AZURE_DEVOPS_TEAM=""
+$ export AZURE_DEVOPS_TOKEN=""
 ```
 
 ## Installation via Docker
 
 Other than requiring [docker](http://docker.com) to be installed, there are no other requirements to run the application this way. This is the preferred method of running the `donny`. The image is [here](https://hub.docker.com/r/benmatselby/donny/).
 
-```
+```bash
 $ docker run \
     --rm \
     -t \
-    -eVSTS_ACCOUNT \
-    -eVSTS_PROJECT \
-    -eVSTS_TEAM \
-    -eVSTS_TOKEN \
+    -eAZURE_DEVOPS_ACCOUNT \
+    -eAZURE_DEVOPS_PROJECT \
+    -eAZURE_DEVOPS_TEAM \
+    -eAZURE_DEVOPS_TOKEN \
     benmatselby/donny "$@"
 ```
 
 ## Installation via Git
 
-```
+```bash
 $ git clone git@github.com:benmatselby/donny.git
 $ cd donny
 $ make all

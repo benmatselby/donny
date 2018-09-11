@@ -7,13 +7,13 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/benmatselby/go-vsts/vsts"
+	"github.com/benmatselby/go-azuredevops/azuredevops"
 	"github.com/urfave/cli"
 )
 
-// ListDeliveryPlans will call the VSTS API and get a list of delivery plans
+// ListDeliveryPlans will call the API and get a list of delivery plans
 func ListDeliveryPlans(c *cli.Context) {
-	options := &vsts.DeliveryPlansListOptions{}
+	options := &azuredevops.DeliveryPlansListOptions{}
 	plans, _, err := client.DeliveryPlans.List(options)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "unable to get a list of delivery plans: %v", err)
@@ -40,7 +40,7 @@ func ListDeliveryPlans(c *cli.Context) {
 	w.Flush()
 }
 
-// GetDeliveryPlanTimeLine will call the VSTS API and get a list of delivery plans
+// GetDeliveryPlanTimeLine will call the API and get a list of delivery plans
 func GetDeliveryPlanTimeLine(c *cli.Context) {
 	if len(c.Args()) < 1 {
 		cli.ShowSubcommandHelp(c)
@@ -49,7 +49,7 @@ func GetDeliveryPlanTimeLine(c *cli.Context) {
 	planName := c.Args()[0]
 	showTag := c.Bool("show-tags")
 
-	options := &vsts.DeliveryPlansListOptions{}
+	options := &azuredevops.DeliveryPlansListOptions{}
 	plans, _, err := client.DeliveryPlans.List(options)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "unable to get a list of delivery plans: %v", err)
@@ -97,12 +97,12 @@ func GetDeliveryPlanTimeLine(c *cli.Context) {
 					for _, item := range iteration.WorkItems {
 						line := fmt.Sprintf(
 							"* %v - %s",
-							item[vsts.DeliveryPlanWorkItemIDKey],
-							item[vsts.DeliveryPlanWorkItemNameKey],
+							item[azuredevops.DeliveryPlanWorkItemIDKey],
+							item[azuredevops.DeliveryPlanWorkItemNameKey],
 						)
 
 						if showTag {
-							line += fmt.Sprintf(" (%s)", item[vsts.DeliveryPlanWorkItemTagKey])
+							line += fmt.Sprintf(" (%s)", item[azuredevops.DeliveryPlanWorkItemTagKey])
 						}
 
 						fmt.Println(line)

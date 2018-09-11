@@ -3,11 +3,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:4f23556459b0306fdf3f408e82c551ef05eb72ffc0f32b5b8a609bd7d9e4c323"
-  name = "github.com/benmatselby/go-vsts"
-  packages = ["vsts"]
+  digest = "1:32a4531383fc6b1e897ec5f1afecbcf089a71a5bce9c45c660e31e33e20dc8eb"
+  name = "github.com/benmatselby/go-azuredevops"
+  packages = ["azuredevops"]
   pruneopts = "UT"
-  revision = "68d296d5d564279b3640c8ffb93d51d4dac4c380"
+  revision = "7381aa93bebc601ae80b59ecb1881e1542bf2022"
 
 [[projects]]
   branch = "master"
@@ -29,7 +29,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/benmatselby/go-vsts/vsts",
+    "github.com/benmatselby/go-azuredevops/azuredevops",
     "github.com/urfave/cli",
   ]
   solver-name = "gps-cdcl"
