@@ -177,6 +177,16 @@ func main() {
 			},
 			Category: "pull requests",
 		},
+		{
+			Name:    "t:list",
+			Usage:   "List all the teams",
+			Action:  ListTeams,
+			Aliases: []string{"tl"},
+			Flags: []cli.Flag{
+				cli.BoolFlag{Name: "mine", Usage: "Show my teams only"},
+			},
+			Category: "teams",
+		},
 	}
 
 	app.Run(os.Args)
