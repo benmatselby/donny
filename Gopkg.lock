@@ -3,11 +3,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:32a4531383fc6b1e897ec5f1afecbcf089a71a5bce9c45c660e31e33e20dc8eb"
+  digest = "1:689c510b690a82cf6978fe929aee389282c1bec771e8bb871629da146fba45e1"
   name = "github.com/benmatselby/go-azuredevops"
   packages = ["azuredevops"]
   pruneopts = "UT"
-  revision = "7381aa93bebc601ae80b59ecb1881e1542bf2022"
+  revision = "8d2e71ef2a7e2091e1e4b5546ac6d24bccc7aa63"
 
 [[projects]]
   branch = "master"
@@ -15,7 +15,7 @@
   name = "github.com/google/go-querystring"
   packages = ["query"]
   pruneopts = "UT"
-  revision = "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
+  revision = "44c6ddd0a2342c386950e880b658017258da92fc"
 
 [[projects]]
   digest = "1:b24d38b282bacf9791408a080f606370efa3d364e4b5fd9ba0f7b87786d3b679"
