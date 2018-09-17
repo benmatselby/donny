@@ -12,7 +12,11 @@ import (
 
 // ListTeams will return all the teams for the organisation
 func ListTeams(c *cli.Context) {
-	opts := azuredevops.TeamsListOptions{}
+	filterMine := c.Bool("mine")
+
+	opts := azuredevops.TeamsListOptions{
+		Mine: filterMine,
+	}
 	teams, _, err := client.Teams.List(&opts)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "unable to get teams: %+v", err)
