@@ -1,6 +1,7 @@
 NAME := donny
 DOCKER_PREFIX = benmatselby
 
+.DEFAULT_GOAL := explain
 .PHONY: explain
 explain:
 	### Welcome
@@ -31,7 +32,11 @@ install: ## Install the local dependencies
 
 .PHONY: vet
 vet: ## Vet the code
-	go vet -v ./...
+	go vet ./...
+
+.PHONY: lint
+lint: ## Lint the code
+	golint -set_exit_status $(shell go list ./...)
 
 .PHONY: build
 build: ## Build the application
@@ -43,14 +48,14 @@ static: ## Build the application
 
 .PHONY: test
 test: ## Run the unit tests
-	go test ./... -coverprofile=profile.out
+	go test -v -race ./... -coverprofile=profile.out
 
 .PHONY: test-cov
 test-cov: test ## Run the unit tests with coverage
 	go tool cover -html=profile.out
 
 .PHONY: all ## Run everything
-all: clean install vet build test
+all: clean install lint vet build test
 
 .PHONY: static-all ## Run everything
 static-all: clean install vet static test
