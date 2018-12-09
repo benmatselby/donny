@@ -3,11 +3,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:21dccbef48384b151ba37da92a4c6978552eb10d00512582046c7d2a48d0f805"
+  digest = "1:4c9b7e349b4896a0bd2e9f3f7c9a11c072994ee3b6d28d24a45721896ab5b972"
   name = "github.com/benmatselby/go-azuredevops"
   packages = ["azuredevops"]
   pruneopts = "UT"
-  revision = "99a3305cab1cd7a403a67a6403478e3fa2cc2360"
+  revision = "fd0e0ea4bad3addaab681835a4650a9a38a6a1de"
 
 [[projects]]
   branch = "master"
