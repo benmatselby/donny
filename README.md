@@ -7,7 +7,7 @@ _Forget it, Donny, you're out of your element!_
 
 CLI application for getting information out of Azure DevOps. It's based on [Trello CLI](https://github.com/benmatselby/trello-cli) so the aims are the same:
 
-```
+```shell
 COMMANDS:
      help, h  Shows a list of commands or help for one command
    build:
@@ -31,18 +31,17 @@ COMMANDS:
 
 If you are wanting to build and develop this, you will need the following items installed. If, however, you just want to run the application I recommend using the docker container (See below)
 
-* Go version 1.10+
-* [Dep installed](https://github.com/golang/dep)
+* Go version 1.11+
 
 ## Configuration
 
 You will need the following environment variables defining:
 
 ```bash
-$ export AZURE_DEVOPS_ACCOUNT=""
-$ export AZURE_DEVOPS_PROJECT=""
-$ export AZURE_DEVOPS_TEAM=""
-$ export AZURE_DEVOPS_TOKEN=""
+export AZURE_DEVOPS_ACCOUNT=""
+export AZURE_DEVOPS_PROJECT=""
+export AZURE_DEVOPS_TEAM=""
+export AZURE_DEVOPS_TOKEN=""
 ```
 
 ## Installation via Docker
@@ -63,8 +62,10 @@ $ docker run \
 ## Installation via Git
 
 ```bash
-$ git clone git@github.com:benmatselby/donny.git
-$ cd donny
-$ make all
-$ ./donny iteration:list
+git clone git@github.com:benmatselby/donny.git
+cd donny
+make all
+./donny iteration:list
 ```
+
+You can also install into your `$GOPATH/bin` by `go install`
