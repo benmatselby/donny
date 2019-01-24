@@ -1,0 +1,6 @@
+github.com/benmatselby/go-azuredevops v0.0.0-20190112144040-c2a0219308ca h1:GDsxjooiPXexocQ9an2z85qnF2RCMN8DzFv4HETIxgQ=
+github.com/benmatselby/go-azuredevops v0.0.0-20190112144040-c2a0219308ca/go.mod h1:1iGYUo0OwirKk+wm+lftDoaTtOgRYRuIZ81Fq1IJZTw=
+github.com/google/go-querystring v1.0.0 h1:Xkwi/a1rcvNg1PPYe5vI8GbeBY/jrVuDX5ASuANWTrk=
+github.com/google/go-querystring v1.0.0/go.mod h1:odCYkC5MyYFN7vkCjXpyrEuKhc/BUO6wN/zVPAxq5ck=
+github.com/urfave/cli v1.20.0 h1:fDqGv3UG/4jbVl/QkFwEdddtEDjh/5Ov6X+0B/3bPaw=
+github.com/urfave/cli v1.20.0/go.mod h1:70zkFmudgCuE/ngEzBv17Jvp/497gISqfk5gWijbERA=

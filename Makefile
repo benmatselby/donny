@@ -28,7 +28,7 @@ clean: ## Clean the local dependencies
 
 .PHONY: install
 install: ## Install the local dependencies
-	dep ensure
+	go get ./...
 
 .PHONY: vet
 vet: ## Vet the code
