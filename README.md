@@ -1,6 +1,6 @@
 # Donny
 
-[![Build Status](https://travis-ci.org/benmatselby/donny.png?branch=master)](https://travis-ci.org/benmatselby/donny)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=donny&metric=alert_status)](https://sonarcloud.io/dashboard?id=donny)
 [![Go Report Card](https://goreportcard.com/badge/github.com/benmatselby/donny?style=flat-square)](https://goreportcard.com/report/github.com/benmatselby/donny)
 
 _Forget it, Donny, you're out of your element!_
@@ -31,7 +31,7 @@ COMMANDS:
 
 If you are wanting to build and develop this, you will need the following items installed. If, however, you just want to run the application I recommend using the docker container (See below)
 
-* Go version 1.11+
+- Go version 1.12+
 
 ## Configuration
 
