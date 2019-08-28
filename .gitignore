@@ -5,3 +5,6 @@ trace.out
 debug.test
 vendor/
 debug
+
+# Sonar
+.scannerwork/

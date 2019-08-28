@@ -48,11 +48,11 @@ static: ## Build the application
 
 .PHONY: test
 test: ## Run the unit tests
-	go test ./... -coverprofile=profile.out
+	go test ./... -coverprofile=coverage.out
 
 .PHONY: test-cov
 test-cov: test ## Run the unit tests with coverage
-	go tool cover -html=profile.out
+	go tool cover -html=coverage.out
 
 .PHONY: all ## Run everything
 all: clean install lint vet build test
