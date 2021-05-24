@@ -1,5 +1,7 @@
 module github.com/benmatselby/donny
 
+go 1.16
+
 require (
 	github.com/benmatselby/go-azuredevops v0.0.0-20190112144040-c2a0219308ca
 	github.com/google/go-querystring v1.0.0 // indirect
