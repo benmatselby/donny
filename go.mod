@@ -3,7 +3,9 @@ module github.com/benmatselby/donny
 go 1.16
 
 require (
-	github.com/benmatselby/go-azuredevops v0.0.0-20190112144040-c2a0219308ca
-	github.com/google/go-querystring v1.0.0 // indirect
-	github.com/urfave/cli v1.20.0
+	github.com/benmatselby/go-azuredevops v0.4.0
+	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/mitchellh/go-homedir v1.1.0
+	github.com/spf13/cobra v1.1.3
+	github.com/spf13/viper v1.7.1
 )
