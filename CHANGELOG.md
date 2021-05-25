@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 2.0.0
 
 - Convert to [Cobra](https://github.com/spf13/cobra).
 
