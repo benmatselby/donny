@@ -1,5 +1,4 @@
 NAME := donny
-DOCKER_PREFIX = benmatselby
 
 .DEFAULT_GOAL := explain
 .PHONY: explain
