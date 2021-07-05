@@ -8,17 +8,16 @@ ENV GOPATH /go
 COPY . /go/src/github.com/benmatselby/${APPNAME}
 
 RUN apk update && \
-    apk add --no-cache --virtual .build-deps \
-		ca-certificates \
-		gcc \
-		libc-dev \
-		libgcc \
-		git \
-		curl \
-		make
+	apk add --no-cache --virtual .build-deps \
+	ca-certificates \
+	gcc \
+	libc-dev \
+	libgcc \
+	git \
+	curl \
+	make
 
 RUN cd /go/src/github.com/benmatselby/${APPNAME} && \
-	go get -u golang.org/x/lint/golint && \
 	make static-all  && \
 	mv ${APPNAME} /usr/bin/${APPNAME}  && \
 	apk del .build-deps  && \
