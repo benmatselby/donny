@@ -8,6 +8,7 @@ import (
 
 	"github.com/benmatselby/go-azuredevops/azuredevops"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // ListIterationsOptions defines what arguments/options the user can provide for the
@@ -40,7 +41,7 @@ func NewListIterationsCommand(client *azuredevops.Client) *cobra.Command {
 	}
 
 	flags := cmd.Flags()
-	flags.StringVar(&opts.Team, "team", "", "The team to get iterations for")
+	flags.StringVar(&opts.Team, "team", viper.GetString("AZURE_DEVOPS_TEAM"), "The team to get iterations for")
 
 	return cmd
 }
@@ -113,9 +114,9 @@ func NewListItemsInIteration(client *azuredevops.Client) *cobra.Command {
 	}
 
 	flags := cmd.Flags()
-	flags.StringVar(&opts.Team, "team", "", "The team the iteration belongs to")
+	flags.StringVar(&opts.Team, "team", viper.GetString("AZURE_DEVOPS_TEAM"), "The team the iteration belongs to")
 	flags.StringVar(&opts.Iteration, "iteration", "", "The iteration name")
-	flags.StringVar(&opts.Board, "board", "Stories", "The board name")
+	flags.StringVar(&opts.Board, "board", "User Stories", "The board name")
 	flags.StringVar(&opts.HideTag, "hide-tags", "", "Items to hide based on tags")
 	flags.StringVar(&opts.ShowTag, "show-tags", "", "Items to show based on tags")
 
@@ -185,9 +186,9 @@ func NewIterationBurndownCommand(client *azuredevops.Client) *cobra.Command {
 	}
 
 	flags := cmd.Flags()
-	flags.StringVar(&opts.Team, "team", "", "The team the iteration belongs to")
+	flags.StringVar(&opts.Team, "team", viper.GetString("AZURE_DEVOPS_TEAM"), "The team the iteration belongs to")
 	flags.StringVar(&opts.Iteration, "iteration", "", "The iteration name")
-	flags.StringVar(&opts.Board, "board", "Stories", "The board name")
+	flags.StringVar(&opts.Board, "board", "User Stories", "The board name")
 	flags.StringVar(&opts.HideTag, "hide-tags", "", "Items to hide based on tags")
 	flags.StringVar(&opts.ShowTag, "show-tags", "", "Items to show based on tags")
 
@@ -245,7 +246,7 @@ func NewIterationPeopleBreakdownCommand(client *azuredevops.Client) *cobra.Comma
 	}
 
 	flags := cmd.Flags()
-	flags.StringVar(&opts.Team, "team", "", "The team the iteration belongs to")
+	flags.StringVar(&opts.Team, "team", viper.GetString("AZURE_DEVOPS_TEAM"), "The team the iteration belongs to")
 	flags.StringVar(&opts.Iteration, "iteration", "", "The iteration name")
 	flags.StringVar(&opts.Board, "board", "Stories", "The board name")
 	flags.StringVar(&opts.HideTag, "hide-tags", "", "Items to hide based on tags")
