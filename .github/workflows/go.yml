@@ -25,6 +25,7 @@ jobs:
       - name: Build
         run: |
           make build
+          docker build -t donny .
 
       - name: Test
         run: |
