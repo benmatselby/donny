@@ -52,9 +52,10 @@ export AZURE_DEVOPS_TOKEN=""
 
 ## Installation via Docker
 
-Other than requiring [docker](http://docker.com) to be installed, there are no other requirements to run the application this way. This is the preferred method of running the `donny`. The image is [here](https://hub.docker.com/r/benmatselby/donny/).
+Other than requiring [docker](http://docker.com) to be installed, there are no other requirements to run the application this way.
 
 ```bash
+$ docker run -t benmatselby/donny .
 $ docker run \
     --rm \
     -t \
