@@ -1,5 +1,9 @@
 # Changelog
 
+## Next
+
+- Updated to build with Go 1.17.
+
 ## 2.0.0
 
 - Convert to [Cobra](https://github.com/spf13/cobra).
