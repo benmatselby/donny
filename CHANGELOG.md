@@ -1,8 +1,8 @@
 # Changelog
 
-## Next
+## 2.0.1
 
-- Updated to build with Go 1.17.
+- Updated to build with Go 1.18.
 
 ## 2.0.0
 
